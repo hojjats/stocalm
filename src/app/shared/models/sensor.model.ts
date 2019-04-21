@@ -2,7 +2,8 @@ import {Reading} from './reading.model';
 
 export interface Sensor {
   id: string;
-  x: number;
-  y: number;
+  name: string;
+  lng: number;
+  lat: number;
   readings: Reading[];
 }

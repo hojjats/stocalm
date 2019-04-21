@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let sensor of sensors">
+    <ion-button (click)="flyToLocation(sensor)">{{sensor.name}}</ion-button>
+  </li>
+</ul>
+<ion-button (click)="addMarker()">Add Marker</ion-button>
+<div id="map"></div>
