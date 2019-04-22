@@ -5,7 +5,26 @@ import {EventEmitter, Injectable} from '@angular/core';
 })
 export class NavigationService {
 
-  public togglePlacesEmitter: EventEmitter = new EventEmitter();
+  placesIsOpen = false;
 
-  constructor() { }
+  public openPlacesEmitter: EventEmitter<boolean> = new EventEmitter();
+
+  constructor() {
+  }
+
+  togglePlaces() {
+    this.placesIsOpen = !this.placesIsOpen;
+    this.openPlacesEmitter.emit(this.placesIsOpen);
+  }
+
+  closePlaces() {
+    this.placesIsOpen = false;
+    this.openPlacesEmitter.emit(this.placesIsOpen);
+  }
+
+  openPlaces() {
+    this.placesIsOpen = true;
+    this.openPlacesEmitter.emit(this.placesIsOpen);
+  }
+
 }

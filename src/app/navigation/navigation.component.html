@@ -1,12 +1,18 @@
 <nav>
   <ul>
-    <li routerLink="/home" routerLinkActive="active">
+    <li routerLink="/home"
+        (click)="closePlaces()"
+        routerLinkActive="active"
+        [ngClass]="navigationService.placesIsOpen? 'inactive' : ''">
       <i class="fa fa-home"></i>
     </li>
-    <li (click)="togglePlaces()">
+    <li (click)="togglePlaces()"
+        [ngClass]="navigationService.placesIsOpen? 'active' : ''">
       <i class="fas fa-map-marker-alt"></i>
     </li>
-    <li>
+    <li routerLink="/settings"
+        (click)="closePlaces()"
+        routerLinkActive="active">
       <i class="fas fa-bars"></i>
     </li>
   </ul>

@@ -21,7 +21,7 @@ import {MarkersComponent} from './markers/markers.component';
       }
     ])
   ],
-  declarations: [HomePage, MapComponent, NavigationComponent, MarkersComponent]
+  declarations: [HomePage, MapComponent, MarkersComponent]
 })
 export class HomePageModule {
 

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ApiService} from '../../shared/services/api.service';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {MapService} from '../../shared/services/map.service';
@@ -9,7 +9,7 @@ import {Sensor} from '../../shared/models/sensor.model';
   templateUrl: './markers.component.html',
   styleUrls: ['./markers.component.scss'],
 })
-export class MarkersComponent implements OnInit {
+export class MarkersComponent implements OnInit, OnDestroy {
 
   @ViewChild('markersContainer') markersContainer: ElementRef;
 
@@ -19,17 +19,23 @@ export class MarkersComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.markersContainer)
-    this.navigationService.togglePlacesEmitter.subscribe(value => {
-      this.markersContainer.nativeElement.classList.contains('open') ?
-        this.markersContainer.nativeElement.classList.remove('open') :
+    console.log(this.markersContainer);
+    this.navigationService.openPlacesEmitter.subscribe(value => {
+      if (value) {
         this.markersContainer.nativeElement.classList.add('open');
+      } else {
+        this.markersContainer.nativeElement.classList.remove('open');
+      }
     });
   }
 
-  flyTo(sensor: Sensor){
+  ngOnDestroy() {
+    this.navigationService.closePlaces();
+  }
+
+  flyTo(sensor: Sensor) {
     this.mapService.flyToEmitter.emit(sensor);
-    this.navigationService.togglePlacesEmitter.emit();
+    this.navigationService.closePlaces();
   }
 
 }

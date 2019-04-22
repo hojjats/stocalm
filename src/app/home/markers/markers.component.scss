@@ -5,8 +5,10 @@
   background-color: rgba(238, 238, 238, 0.7);
   position: absolute;
   top: 100vh;
+  transition: all 0.5s ease;
 }
 
 .open{
-  top: 0;
+  top: 0vh;
+  transition: all 0.5s ease;
 }
