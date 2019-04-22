@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import {environment} from '../../../environments/environment';
-import {Constants} from '../../shared/constants';
 import {Sensor} from '../../shared/models/sensor.model';
 import {FeatureCollection, GeoJson} from './geo';
-import {GeoJSON} from 'geojson';
+import {ApiService} from '../../shared/services/api.service';
+import {MapService} from '../../shared/services/map.service';
 
 
 @Component({
@@ -12,45 +12,41 @@ import {GeoJSON} from 'geojson';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, AfterViewChecked {
 
   map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/outdoors-v9';
   lng = 18.040243;
   lat = 59.316087;
 
-  geojson = [
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [-77.031952, 38.913184]
-      }
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [-122.413682, 37.775408]
-      }
-    }
-  ];
-
-  sensors = Constants.sensors; // Only for testing
-  markers = [];
-
+  // data
   source: any;
-  data: any;
+  markers: any[] = [];
+
+  sensors: Sensor[] = [];
 
 
-  constructor() {
+  constructor(public apiService: ApiService,
+              private mapService: MapService) {
     mapboxgl.accessToken = environment.mapBoxAccessToken;
   }
 
   ngOnInit() {
+    this.apiService.sensors.forEach(marker => {
+      this.markers.push(
+        new GeoJson([marker.lng, marker.lat], {message: marker.name})
+      );
+      this.sensors.push(marker);
+    });
     this.setCurrentLocation();
     this.buildMap();
-    this.addLayer();
+    this.mapService.flyToEmitter.subscribe((sensor: Sensor) => {
+      this.flyToLocation(sensor);
+    });
+  }
+
+  ngAfterViewChecked() {
+    this.map.resize();
   }
 
   private setCurrentLocation() {
@@ -65,7 +61,7 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private buildMap() {
+  buildMap() {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: this.style,
@@ -73,74 +69,73 @@ export class MapComponent implements OnInit {
       center: [this.lng, this.lat]
     });
 
-    // this.map.addControl(new mapboxgl.NavigationControl());
 
-    this.map.on('load', (event) => {
-
-      this.map.addLayer({
-        'id': 'places',
-        'type': 'symbol',
-        'source': {
-          'type': 'geojson',
-          'data': {
-            'type': 'FeatureCollection',
-            'features': [{
-              'type': 'Feature',
-              'properties': {
-                'description': '<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
-                'icon': 'theatre'
-              },
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [18.024202, 59.328784]
-              }
-            }, {
-              'type': 'Feature',
-              'properties': {
-                'description': '<strong>Mad Men Season Five Finale Watch Party</strong><p>Head to Lounge 201 (201 Massachusetts Avenue NE) Sunday for a <a href="http://madmens5finale.eventbrite.com/" target="_blank" title="Opens in a new window">Mad Men Season Five Finale Watch Party</a>, complete with 60s costume contest, Mad Men trivia, and retro food and drink. 8:00-11:00 p.m. $10 general admission, $20 admission and two hour open bar.</p>',
-                'icon': 'theatre'
-              },
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [18.035978, 59.313884]
-              }
-            }]
-          }
-        },
-        'layout': {
-          'icon-image': '{icon}-15',
-          'icon-allow-overlap': true
-        }
-      });
-    });
-
+    /*//// Add Marker on Click
     this.map.on('click', (event) => {
       const coordinates = [event.lngLat.lng, event.lngLat.lat];
-      const newMarker = new GeoJson(coordinates, {message: 'Test'});
+      const newMarker = new GeoJson(coordinates, {message: this.message});
       this.markers.push(newMarker);
-      console.log(this.markers);
+      console.log(newMarker);
+    });
+    */
 
-      const el = document.createElement('div');
-      el.className = 'marker';
-      el.style.backgroundColor = 'black';
-      el.style.height = '50px';
-      el.addEventListener('click', function() {
-        window.alert('Test');
+    /// Add realtime firebase data on map load
+    this.map.on('load', (event) => {
+
+      /// register source
+      this.map.addSource('stocalm', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: []
+        }
       });
 
-      new mapboxgl.Marker(el).setLngLat(coordinates).addTo(this.map);
+      /// get source
+      this.source = this.map.getSource('stocalm');
+
+      /// subscribe to realtime database and set data source
+
+      const data = new FeatureCollection(this.markers);
+      this.source.setData(data);
+
+
+      /// create map layers with realtime data
+      this.map.addLayer({
+        id: 'stocalm',
+        source: 'stocalm',
+        type: 'symbol',
+        layout: {
+          'text-field': '{message}',
+          'text-size': 10,
+          'text-transform': 'uppercase',
+          'icon-image': 'marker-15',
+          'icon-size': 3,
+          'text-offset': [0, 3]
+        },
+        paint: {
+          'text-color': '#000000',
+          'text-halo-color': '#fff',
+          'text-halo-width': 2
+        }
+      });
 
     });
+
+
+    /*// Overloading site
+    this.sensors.forEach((sensor: Sensor) => {
+      const el = document.createElement('div');
+      el.innerHTML = '<div class="marker"><i class="fa fa-map-marker" aria-hidden="true"></i><h3></div>' + sensor.name + '</h3>';
+      new mapboxgl.Marker(el)
+        .setLngLat([sensor.lng, sensor.lat])
+        .addTo(this.map);
+    });*/
 
   }
 
   public flyToLocation(sensor: Sensor) {
-    this.map.flyTo({center: [sensor.lng, sensor.lat]});
-  }
-
-  addLayer() {
-    // Add a layer showing the places.
-
+    this.map.flyTo({center: [sensor.lng, sensor.lat], zoom: 17});
   }
 
 

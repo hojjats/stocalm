@@ -1,0 +1,7 @@
+  <div #markersContainer class="markers-container ion-padding">
+    <ul>
+      <li *ngFor="let sensor of apiService.sensors">
+        <ion-button (click)="flyTo(sensor)">{{sensor.name}}</ion-button>
+      </li>
+    </ul>
+  </div>
