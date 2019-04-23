@@ -6,7 +6,6 @@ import {RouterModule} from '@angular/router';
 
 import {HomePage} from './home.page';
 import {MapComponent} from './map/map.component';
-import {NavigationComponent} from '../navigation/navigation.component';
 import {MarkersComponent} from './markers/markers.component';
 
 @NgModule({
@@ -21,7 +20,8 @@ import {MarkersComponent} from './markers/markers.component';
       }
     ])
   ],
-  declarations: [HomePage, MapComponent, MarkersComponent]
+  declarations: [HomePage, MapComponent, MarkersComponent],
+  entryComponents: [],
 })
 export class HomePageModule {
 

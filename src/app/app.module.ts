@@ -11,14 +11,21 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {NavigationComponent} from './navigation/navigation.component';
 
+import {MatDialogModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MarkerPopupComponent} from './home/map/marker-popup/marker-popup.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationComponent
+    NavigationComponent,
+    MarkerPopupComponent
   ],
-  entryComponents: [],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
     AppRoutingModule,
     HttpClientModule,
     IonicModule.forRoot(),
@@ -28,7 +35,8 @@ import {NavigationComponent} from './navigation/navigation.component';
     SplashScreen,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [MarkerPopupComponent]
 })
 export class AppModule {
 }

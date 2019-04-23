@@ -25,12 +25,6 @@ export class HomePage implements OnDestroy {
     this.readings = []; // Set init
     if (!!value) {
       const id = Number.parseInt(value, 10);
-      this.apiService.getReadingsBySensorId(id)
-        .subscribe((sensor: Sensor) => {
-          if (!!sensor) {
-            this.readings = sensor.readings;
-          }
-        });
     }
   }
 

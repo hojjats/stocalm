@@ -1,0 +1,10 @@
+<div class="container">
+  <h1>{{sensor.name}}</h1>
+  <h3>Mätvärden</h3>
+  <ul>
+    <li *ngFor="let reading of sensor.readings">
+      <p>{{reading.date}}, {{reading.time}}</p>
+      <p>Decibellvärde: {{reading.value}}</p>
+    </li>
+  </ul>
+</div>

@@ -19,7 +19,6 @@ export class MarkersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.markersContainer);
     this.navigationService.openPlacesEmitter.subscribe(value => {
       if (value) {
         this.markersContainer.nativeElement.classList.add('open');

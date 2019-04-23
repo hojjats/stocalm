@@ -1,3 +1,5 @@
+import {Sensor} from '../../shared/models/sensor.model';
+
 export interface IGeometry {
   type: string;
   coordinates: number[];
@@ -6,7 +8,7 @@ export interface IGeometry {
 export interface IGeoJson {
   type: string;
   geometry: IGeometry;
-  properties?: any;
+  properties?: Sensor;
   $key?: string;
 }
 
