@@ -8,11 +8,18 @@ import {HomePage} from './home.page';
 import {MapComponent} from './map/map.component';
 import {MarkersComponent} from './markers/markers.component';
 
+import {AgmCoreModule} from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCPbmUU1FOGg92CjX6FBFbU56hHNWTmlw0'
+    }),
+    AgmDirectionModule,
     RouterModule.forChild([
       {
         path: '',

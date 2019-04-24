@@ -1,1 +1,19 @@
-<div id="map"></div>
+<agm-map (mapClick)="onChoseLocation($event)"
+         [latitude]="lat"
+         [longitude]="lng"
+         [zoom]="13">
+  <agm-marker class="marker"
+              *ngFor="let sensor of sensors"
+              [latitude]="sensor.lat"
+              [longitude]="sensor.lng"
+              [label]="labelOptions"
+              [iconUrl]="'/assets/icon/favicon.png', scaledSize: {
+                width: '10px',
+                height: '10px'
+              }">
+
+  </agm-marker>
+  <agm-direction [origin]="directionOrigin"
+                 [destination]="directionDestination">
+  </agm-direction>
+</agm-map>
