@@ -4,6 +4,11 @@ import {ApiService} from '../../shared/services/api.service';
 import {MapService} from '../../shared/services/map.service';
 import {Subscription} from 'rxjs';
 import {MatDialog, MatDialogConfig} from '@angular/material';
+import {Coords} from '../../shared/models/coords.model';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
+import {NavigationService} from '../../shared/services/navigation.service';
+import {AgmMap, AgmMarker} from '@agm/core';
+import {MarkerPopupComponent} from './marker-popup/marker-popup.component';
 
 
 @Component({
@@ -13,36 +18,49 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 })
 export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
 
-  @ViewChild('map') mapRef: ElementRef;
-  lat: number;
-  lng: number;
+  @ViewChild('map') mapRef: AgmMap;
+  @ViewChild('direction') direction: any;
+
+  centerMapLocation: Coords = {lat: 59.313884, lng: 18.035978};
+  userLocation: Coords;
+  centerMapByUser = true;
 
   directionOrigin: any;
   directionDestination: any;
 
   sensors: Sensor[] = [];
 
-  labelOptions = {
-    color: 'white',
-    fontFamily: '',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    text: 'some text',
-    width: '10px'
+  markerIconOptions = {
+    url: '/assets/icon/sensor.png',
+    scaledSize: {
+      width: 50,
+      height: 50
+    }
   };
 
+  userIconOptions = {
+    url: '/assets/icon/user.png',
+    scaledSize: {
+      width: 50,
+      height: 50
+    }
+  };
+
+  interval: any;
+
   private subscriptions: Subscription[] = [];
-  private map: any;
 
   constructor(public apiService: ApiService,
               private mapService: MapService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private geolocation: Geolocation,
+              private navigationService: NavigationService) {
   }
 
   ngOnInit() {
-    this.setInitialLatLng();
-    this.setDirections();
+    // this.trackUser();
     this.getSensors();
+    this.setSubscriptions();
   }
 
   ngAfterViewChecked() {
@@ -51,39 +69,120 @@ export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
+  setSubscriptions() {
+    const subscription = this.navigationService.centerMapToUserLocation.subscribe(value => {
+      this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
+      setTimeout(() => {
+        this.centerMapLocation = {lat: this.userLocation.lat, lng: this.userLocation.lng};
+      }, 50);
+    });
+    this.subscriptions.push(subscription);
+
+    this.mapService.flyToEmitter.subscribe((sensor: Sensor) => {
+      this.centerMapLocation = {lat: sensor.lat, lng: sensor.lng};
+    });
+
+    this.mapService.initiateDirections.subscribe((destinationSensor: Sensor) => {
+      this.setDirections({lat: destinationSensor.lat, lng: destinationSensor.lng});
+    });
+
+    this.interval = setInterval(() => {
+      this.getUserLocation();
+    }, 1000);
   }
 
   private getSensors() {
-    this.apiService.getSensors().subscribe((sensors: Sensor[]) => {
+    this.apiService.sensors$.subscribe((sensors: Sensor[]) => {
       this.sensors = sensors;
     });
   }
 
-  private setInitialLatLng() {
-    this.getUserLocation();
+  setDirections(destinationCoord: Coords) {
+    this.directionOrigin = this.userLocation;
+    this.directionDestination = destinationCoord;
   }
 
-  setDirections() {
-    this.directionOrigin = {lat: this.lat, lng: this.lng};
-    this.directionDestination = {lat: 59.313884, lng: 18.035978};
-  }
-
-  onChoseLocation(event) {
-    console.log(event);
-    this.lat = event.coords.lat;
-    this.lng = event.coords.lng;
-    console.log(event);
+  onMapClick(event) {
   }
 
   getUserLocation() {
-    /*if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-      });
-    }*/
-    this.lat = 59.328784;
-    this.lng = 18.024202;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log('Got user position: ', position.coords.longitude, position.coords.latitude);
+        this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        if (this.centerMapByUser) {
+          this.centerMapLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        }
+      }, error => {
+        console.error(error);
+      }, {timeout: 5000, enableHighAccuracy: true});
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  }
+
+  setUserLocation(coords: Coords) {
+    this.userLocation = coords;
+    this.centerMapLocation = {lat: this.userLocation.lat, lng: this.userLocation.lng};
+  }
+
+  trackUser() {
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(position => {
+        console.log('Got user position: ', position);
+        this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        if (this.centerMapByUser) {
+          this.centerMapLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        }
+      }, error => {
+        console.error(error);
+      }, {timeout: 5000, enableHighAccuracy: true});
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  }
+
+  onMapCenterChanged(event) {
+    this.centerMapByUser = false;
+  }
+
+  onCenterMapByUser() {
+    this.centerMapByUser = true;
+  }
+
+  onMarkerClick(event) {
+    this.openMarkerDialog(
+      this.getSensorFromList(event.latitude, event.longitude)
+    );
+
+  }
+
+  onUserMarkerClick(event) {
+    this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
+    setTimeout(() => {
+      this.centerMapByUser = true;
+    }, 50);
+  }
+
+  openMarkerDialog(sensor: Sensor) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = sensor;
+    const dialogRef = this.dialog.open(MarkerPopupComponent, dialogConfig);
+  }
+
+  getSensorFromList(lat: number, lng: number): Sensor {
+    let sensorFound: Sensor;
+    this.sensors.forEach(sensor => {
+      if (sensor.lng === lng && sensor.lat === lat) {
+        sensorFound = sensor;
+      }
+    });
+    return sensorFound;
   }
 
 

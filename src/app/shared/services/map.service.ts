@@ -7,6 +7,7 @@ import {Sensor} from '../models/sensor.model';
 export class MapService {
 
   flyToEmitter: EventEmitter<Sensor> = new EventEmitter();
+  initiateDirections: EventEmitter<Sensor> = new EventEmitter();
 
   constructor() {
   }

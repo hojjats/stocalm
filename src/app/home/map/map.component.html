@@ -1,19 +1,32 @@
-<agm-map (mapClick)="onChoseLocation($event)"
-         [latitude]="lat"
-         [longitude]="lng"
-         [zoom]="13">
-  <agm-marker class="marker"
+<agm-map #map
+         (mapClick)="onMapClick($event)"
+         (centerChange)="onMapCenterChanged($event)"
+         [latitude]="centerMapLocation.lat"
+         [longitude]="centerMapLocation.lng"
+         [zoom]="13"
+         [mapTypeControl]="true"
+         [streetViewControl]="false"
+         [zoomControl]="false"
+>
+  <agm-marker #marker
+              (markerClick)="onMarkerClick($event)"
               *ngFor="let sensor of sensors"
               [latitude]="sensor.lat"
               [longitude]="sensor.lng"
-              [label]="labelOptions"
-              [iconUrl]="'/assets/icon/favicon.png', scaledSize: {
-                width: '10px',
-                height: '10px'
-              }">
+              [iconUrl]="markerIconOptions">
 
   </agm-marker>
-  <agm-direction [origin]="directionOrigin"
-                 [destination]="directionDestination">
+  <agm-marker (markerClick)="onUserMarkerClick()"
+              *ngIf="userLocation"
+              [latitude]="userLocation.lat"
+              [longitude]="userLocation.lng"
+              [iconUrl]="userIconOptions">
+
+  </agm-marker>
+  <agm-direction *ngIf="!!directionOrigin && !!directionDestination"
+                 [origin]="directionOrigin"
+                 [destination]="directionDestination"
+                 [travelMode]="'WALKING'">
   </agm-direction>
+
 </agm-map>

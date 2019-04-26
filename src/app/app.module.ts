@@ -14,6 +14,7 @@ import {NavigationComponent} from './navigation/navigation.component';
 import {MatDialogModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MarkerPopupComponent} from './home/map/marker-popup/marker-popup.component';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {MarkerPopupComponent} from './home/map/marker-popup/marker-popup.compone
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],
   bootstrap: [AppComponent],

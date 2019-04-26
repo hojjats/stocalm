@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from './../../../environments/environment';
 import {Sensor} from './../models/sensor.model';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,13 @@ export class ApiService {
   ;
 
   sensors: Sensor[] = [];
+  sensors$: Subject<Sensor[]> = new Subject();
 
   constructor(private httpClient: HttpClient) {
+    this.getSensors().subscribe((sensors: Sensor[]) => {
+      this.sensors$.next(sensors);
+      this.sensors = sensors;
+    });
   }
 
   getReadingsBySensorId(id: number) {
