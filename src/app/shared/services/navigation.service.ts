@@ -8,7 +8,6 @@ export class NavigationService {
   placesIsOpen = false;
 
   public openPlacesEmitter: EventEmitter<boolean> = new EventEmitter();
-  public centerMapToUserLocation: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {
   }

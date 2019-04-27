@@ -15,13 +15,15 @@ import {MatDialogModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MarkerPopupComponent} from './home/map/marker-popup/marker-popup.component';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
+import {ToasterPopupComponent} from './shared/toaster-popup/toaster-popup.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    MarkerPopupComponent
+    MarkerPopupComponent,
+    ToasterPopupComponent
   ],
   imports: [
     BrowserModule,

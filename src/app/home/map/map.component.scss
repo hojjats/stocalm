@@ -1,3 +1,24 @@
 agm-map{
   height: 100vh;
 }
+
+.info-window{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  margin: 0.5em;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+
+  ul{
+    li{
+      border-bottom: 1px solid #eeeeee;
+      padding: 8px 17px;
+      cursor: pointer;
+    }
+    .active{
+      background-color: #eee;
+    }
+  }
+}

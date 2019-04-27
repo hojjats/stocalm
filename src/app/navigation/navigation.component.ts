@@ -31,8 +31,4 @@ export class NavigationComponent implements OnInit {
     this.navigationService.closePlaces();
   }
 
-  test() {
-    this.navigationService.centerMapToUserLocation.emit(true);
-  }
-
 }

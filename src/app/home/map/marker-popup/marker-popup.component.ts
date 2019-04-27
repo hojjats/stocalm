@@ -21,4 +21,13 @@ export class MarkerPopupComponent implements OnInit {
     this.sensor = this.data;
   }
 
+  onShowDirection() {
+    this.mapService.initiateDirections.emit(this.sensor);
+    this.close();
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
+
 }

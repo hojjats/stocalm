@@ -9,27 +9,26 @@ import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {AgmMap, AgmMarker} from '@agm/core';
 import {MarkerPopupComponent} from './marker-popup/marker-popup.component';
-
+import {Translations} from '../../shared/translations';
+import {ToasterService} from '../../shared/services/toaster.service';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class MapComponent implements OnInit, OnDestroy {
 
+  // ViewChildren
   @ViewChild('map') mapRef: AgmMap;
   @ViewChild('direction') direction: any;
 
-  centerMapLocation: Coords = {lat: 59.313884, lng: 18.035978};
-  userLocation: Coords;
-  centerMapByUser = true;
-
-  directionOrigin: any;
-  directionDestination: any;
-
+  // All sensors from database
   sensors: Sensor[] = [];
 
+  // Map Options
+  centerMapLocation: Coords = {lat: 59.313884, lng: 18.035978};
+  userLocation: Coords;
   markerIconOptions = {
     url: '/assets/icon/sensor.png',
     scaledSize: {
@@ -46,15 +45,28 @@ export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
   };
 
-  interval: any;
+  // Direction
+  directionOrigin: any;
+  directionDestination: any;
+  directionsOptions = {
+    selectedMode: Translations.travelModes[0].mode,
+    travelModes: Translations.travelModes
+  };
 
+  // States
+  setDestinationOriginState = false;
+  centerMapByUserState = true;
+
+  // Subscriptions
   private subscriptions: Subscription[] = [];
+  getUserLocationinterval: any;
 
   constructor(public apiService: ApiService,
               private mapService: MapService,
               public dialog: MatDialog,
               private geolocation: Geolocation,
-              private navigationService: NavigationService) {
+              private navigationService: NavigationService,
+              private toasterService: ToasterService) {
   }
 
   ngOnInit() {
@@ -63,35 +75,28 @@ export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.setSubscriptions();
   }
 
-  ngAfterViewChecked() {
-
-  }
-
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    if (this.interval) {
-      clearInterval(this.interval);
+    if (this.getUserLocationinterval) {
+      clearInterval(this.getUserLocationinterval);
     }
   }
 
-  setSubscriptions() {
-    const subscription = this.navigationService.centerMapToUserLocation.subscribe(value => {
-      this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
-      setTimeout(() => {
-        this.centerMapLocation = {lat: this.userLocation.lat, lng: this.userLocation.lng};
-      }, 50);
+  private setSubscriptions() {
+    // Subscribe to map center change
+    let subscription = this.mapService.flyToEmitter.subscribe((sensor: Sensor) => {
+      this.centerMapLocation = {lat: sensor.lat, lng: sensor.lng};
     });
     this.subscriptions.push(subscription);
 
-    this.mapService.flyToEmitter.subscribe((sensor: Sensor) => {
-      this.centerMapLocation = {lat: sensor.lat, lng: sensor.lng};
+    // Subscribe to directions initiation
+    subscription = this.mapService.initiateDirections.subscribe((destinationSensor: Sensor) => {
+      this.setDirections(destinationSensor);
     });
+    this.subscriptions.push(subscription);
 
-    this.mapService.initiateDirections.subscribe((destinationSensor: Sensor) => {
-      this.setDirections({lat: destinationSensor.lat, lng: destinationSensor.lng});
-    });
-
-    this.interval = setInterval(() => {
+    // Get user position by interval
+    this.getUserLocationinterval = setInterval(() => {
       this.getUserLocation();
     }, 1000);
   }
@@ -102,12 +107,25 @@ export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
   }
 
-  setDirections(destinationCoord: Coords) {
-    this.directionOrigin = this.userLocation;
-    this.directionDestination = destinationCoord;
+  setDirections(destinationSensor: Sensor) {
+    // Set direction destination to the sensor location
+    this.directionDestination = {lat: destinationSensor.lat, lng: destinationSensor.lng};
+    // If user location is found, set user location as destination origin
+    if (!!this.userLocation) {
+      this.directionOrigin = this.userLocation;
+    // Else ask the user to set destination origin
+    } else {
+      this.setDestinationOriginState = true;
+      this.toasterService.onShowToaster('Välj startpunkt genom att klicka på kartan', 'info');
+    }
   }
 
   onMapClick(event) {
+    if (this.setDestinationOriginState) {
+      this.directionOrigin = {lat: event.coords.lat, lng: event.coords.lng};
+      this.setDestinationOriginState = false;
+      this.toasterService.setDefaultValues();
+    }
   }
 
   getUserLocation() {
@@ -115,7 +133,7 @@ export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
       navigator.geolocation.getCurrentPosition((position) => {
         console.log('Got user position: ', position.coords.longitude, position.coords.latitude);
         this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-        if (this.centerMapByUser) {
+        if (this.centerMapByUserState) {
           this.centerMapLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
         }
       }, error => {
@@ -126,17 +144,12 @@ export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
-  setUserLocation(coords: Coords) {
-    this.userLocation = coords;
-    this.centerMapLocation = {lat: this.userLocation.lat, lng: this.userLocation.lng};
-  }
-
   trackUser() {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(position => {
         console.log('Got user position: ', position);
         this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-        if (this.centerMapByUser) {
+        if (this.centerMapByUserState) {
           this.centerMapLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
         }
       }, error => {
@@ -148,11 +161,7 @@ export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   onMapCenterChanged(event) {
-    this.centerMapByUser = false;
-  }
-
-  onCenterMapByUser() {
-    this.centerMapByUser = true;
+    this.centerMapByUserState = false;
   }
 
   onMarkerClick(event) {
@@ -165,7 +174,7 @@ export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
   onUserMarkerClick(event) {
     this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
     setTimeout(() => {
-      this.centerMapByUser = true;
+      this.centerMapByUserState = true;
     }, 50);
   }
 
@@ -183,6 +192,18 @@ export class MapComponent implements OnInit, AfterViewChecked, OnDestroy {
       }
     });
     return sensorFound;
+  }
+
+  onChangeDirectionMode(mode: any) {
+    // If user clicks on selected mode, close directions
+    if (this.directionsOptions.selectedMode === mode.mode) {
+      this.directionOrigin = undefined;
+      this.directionDestination = undefined;
+      this.directionsOptions.selectedMode = this.directionsOptions.travelModes[0].mode;
+      // Else set new mode
+    } else {
+      this.directionsOptions.selectedMode = mode.mode;
+    }
   }
 
 

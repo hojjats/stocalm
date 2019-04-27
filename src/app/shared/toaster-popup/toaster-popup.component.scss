@@ -1,0 +1,22 @@
+.toaster{
+  position: absolute;
+  z-index: 1;
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 1em;
+}
+
+.warning{
+  background-color: darkred;
+}
+
+.info{
+  background-color: cornflowerblue;
+}
+
+.success{
+  background-color: darkolivegreen;
+
+}

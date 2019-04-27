@@ -1,3 +1,16 @@
+<div class="info-window"
+     *ngIf="!!directionDestination">
+  <ul *ngIf="!!directionOrigin && !!directionDestination">
+    <li *ngFor="let mode of directionsOptions.travelModes"
+        [ngClass]="{'active': directionsOptions.selectedMode === mode.mode}"
+        (click)="onChangeDirectionMode(mode)">
+      {{mode.sv}}
+    </li>
+  </ul>
+</div>
+<div>
+
+</div>
 <agm-map #map
          (mapClick)="onMapClick($event)"
          (centerChange)="onMapCenterChanged($event)"
@@ -8,6 +21,7 @@
          [streetViewControl]="false"
          [zoomControl]="false"
 >
+
   <agm-marker #marker
               (markerClick)="onMarkerClick($event)"
               *ngFor="let sensor of sensors"
@@ -23,10 +37,11 @@
               [iconUrl]="userIconOptions">
 
   </agm-marker>
-  <agm-direction *ngIf="!!directionOrigin && !!directionDestination"
+  <agm-direction #direction
+                 *ngIf="!!directionOrigin && !!directionDestination"
                  [origin]="directionOrigin"
                  [destination]="directionDestination"
-                 [travelMode]="'WALKING'">
+                 [travelMode]="directionsOptions.selectedMode">
   </agm-direction>
 
 </agm-map>
