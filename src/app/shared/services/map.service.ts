@@ -8,6 +8,10 @@ export class MapService {
 
   flyToEmitter: EventEmitter<Sensor> = new EventEmitter();
   initiateDirections: EventEmitter<Sensor> = new EventEmitter();
+  followUserEmitter: EventEmitter<boolean> = new EventEmitter();
+
+  // States
+  centerMapByUserState = false;
 
   constructor() {
   }

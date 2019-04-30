@@ -1,15 +1,20 @@
-<div class="info-window"
-     *ngIf="!!directionDestination">
+<div class="direction-container">
   <ul *ngIf="!!directionOrigin && !!directionDestination">
     <li *ngFor="let mode of directionsOptions.travelModes"
         [ngClass]="{'active': directionsOptions.selectedMode === mode.mode}"
         (click)="onChangeDirectionMode(mode)">
       {{mode.sv}}
     </li>
+    <li (click)="setDestinationOrigin()">
+      <span style="color: red">
+        <i class="fas fa-map-marker-alt"></i>
+      </span>
+      Byt startpunkt
+    </li>
   </ul>
 </div>
-<div>
-
+<div class="search-container" *ngIf="sensors.length >0">
+  <app-search [sensors]="sensors"></app-search>
 </div>
 <agm-map #map
          (mapClick)="onMapClick($event)"
@@ -17,9 +22,10 @@
          [latitude]="centerMapLocation.lat"
          [longitude]="centerMapLocation.lng"
          [zoom]="13"
-         [mapTypeControl]="true"
+         [mapTypeControl]="MTC"
          [streetViewControl]="false"
          [zoomControl]="false"
+         [mapTypeControlOptions]="MTCOption"
 >
 
   <agm-marker #marker

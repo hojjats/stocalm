@@ -9,7 +9,8 @@ import {MapComponent} from './map/map.component';
 import {MarkersComponent} from './markers/markers.component';
 
 import {AgmCoreModule} from '@agm/core';
-import { AgmDirectionModule } from 'agm-direction';
+import {AgmDirectionModule} from 'agm-direction';
+import {SearchComponent} from './map/search/search.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,12 @@ import { AgmDirectionModule } from 'agm-direction';
       }
     ])
   ],
-  declarations: [HomePage, MapComponent, MarkersComponent],
+  declarations: [
+    HomePage,
+    MapComponent,
+    MarkersComponent,
+    SearchComponent
+  ],
   entryComponents: [],
 })
 export class HomePageModule {

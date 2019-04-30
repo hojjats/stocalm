@@ -2,7 +2,16 @@ agm-map{
   height: 100vh;
 }
 
-.info-window{
+.search-container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px;
+  z-index: 1;
+  width: calc(100% - 20px);
+}
+
+.direction-container{
   position: absolute;
   top: 0;
   right: 0;
@@ -20,5 +29,11 @@ agm-map{
     .active{
       background-color: #eee;
     }
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .search-container{
+    width: auto;
   }
 }

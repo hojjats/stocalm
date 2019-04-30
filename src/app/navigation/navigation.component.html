@@ -1,14 +1,15 @@
 <nav>
   <ul>
-    <li routerLink="/home"
+    <li routerLink="/"
         (click)="closePlaces()"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
         [ngClass]="navigationService.placesIsOpen? 'inactive' : ''">
-      <i class="fa fa-home"></i>
-    </li>
-    <li (click)="togglePlaces()"
-        [ngClass]="navigationService.placesIsOpen? 'active' : ''">
       <i class="fas fa-map-marked-alt"></i>
+    </li>
+    <li (click)="onToggleFollowUser()"
+        [ngClass]="mapService.centerMapByUserState? 'active' : ''">
+      <i class="fas fa-street-view"></i>
     </li>
     <li routerLink="/settings"
         (click)="closePlaces()"

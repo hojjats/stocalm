@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationService} from '../shared/services/navigation.service';
 import {NavigationStart, Router} from '@angular/router';
+import {MapService} from '../shared/services/map.service';
 
 @Component({
   selector: 'app-navigation',
@@ -10,6 +11,7 @@ import {NavigationStart, Router} from '@angular/router';
 export class NavigationComponent implements OnInit {
 
   constructor(private router: Router,
+              public mapService: MapService,
               public navigationService: NavigationService) {
   }
 
@@ -29,6 +31,11 @@ export class NavigationComponent implements OnInit {
 
   closePlaces() {
     this.navigationService.closePlaces();
+  }
+
+  onToggleFollowUser() {
+    this.mapService.centerMapByUserState = !this.mapService.centerMapByUserState;
+    this.mapService.followUserEmitter.emit(this.mapService.centerMapByUserState);
   }
 
 }

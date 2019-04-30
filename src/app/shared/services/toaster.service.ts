@@ -33,6 +33,7 @@ export class ToasterService {
   }
 
   setDefaultValues() {
+    this.showToaster = false;
     this.position = this.defaultPosition;
     this.message = undefined;
     this.toasterType = undefined;

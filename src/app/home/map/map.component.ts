@@ -1,16 +1,16 @@
-import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Sensor} from '../../shared/models/sensor.model';
 import {ApiService} from '../../shared/services/api.service';
 import {MapService} from '../../shared/services/map.service';
 import {Subscription} from 'rxjs';
 import {MatDialog, MatDialogConfig} from '@angular/material';
-import {Coords} from '../../shared/models/coords.model';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {AgmMap, AgmMarker} from '@agm/core';
+import {AgmMap} from '@agm/core';
 import {MarkerPopupComponent} from './marker-popup/marker-popup.component';
 import {Translations} from '../../shared/translations';
 import {ToasterService} from '../../shared/services/toaster.service';
+import {ControlPosition, MapTypeControlStyle} from '@agm/core/services/google-maps-types';
 
 @Component({
   selector: 'app-map',
@@ -45,6 +45,12 @@ export class MapComponent implements OnInit, OnDestroy {
     }
   };
 
+  MTC = true;
+  MTCOption = {
+    position: ControlPosition.TOP_RIGHT,
+    style: MapTypeControlStyle.HORIZONTAL_BAR
+  };
+
   // Direction
   directionOrigin: any;
   directionDestination: any;
@@ -55,7 +61,6 @@ export class MapComponent implements OnInit, OnDestroy {
 
   // States
   setDestinationOriginState = false;
-  centerMapByUserState = true;
 
   // Subscriptions
   private subscriptions: Subscription[] = [];
@@ -85,7 +90,10 @@ export class MapComponent implements OnInit, OnDestroy {
   private setSubscriptions() {
     // Subscribe to map center change
     let subscription = this.mapService.flyToEmitter.subscribe((sensor: Sensor) => {
-      this.centerMapLocation = {lat: sensor.coords.lat, lng: sensor.coords.lng};
+      this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
+      setTimeout(() => {
+        this.centerMapLocation = {lat: sensor.coords.lat, lng: sensor.coords.lng};
+      }, 50);
     });
     this.subscriptions.push(subscription);
 
@@ -95,10 +103,21 @@ export class MapComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(subscription);
 
+    // Subscribe to if center should follow user
+    subscription = this.mapService.followUserEmitter.subscribe(value => {
+      if (value) {
+        this.setFollowUser();
+      } else {
+        this.mapService.centerMapByUserState = false;
+      }
+    });
+    this.subscriptions.push(subscription);
+
     // Get user position by interval
     this.getUserLocationinterval = setInterval(() => {
       this.getUserLocation();
     }, 1000);
+
   }
 
   private getSensors() {
@@ -113,7 +132,7 @@ export class MapComponent implements OnInit, OnDestroy {
     // If user location is found, set user location as destination origin
     if (!!this.userLocation) {
       this.directionOrigin = this.userLocation;
-    // Else ask the user to set destination origin
+      // Else ask the user to set destination origin
     } else {
       this.setDestinationOriginState = true;
       this.toasterService.onShowToaster('Välj startpunkt genom att klicka på kartan', 'info');
@@ -133,7 +152,7 @@ export class MapComponent implements OnInit, OnDestroy {
       navigator.geolocation.getCurrentPosition((position) => {
         console.log('Got user position: ', position.coords.longitude, position.coords.latitude);
         this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-        if (this.centerMapByUserState) {
+        if (this.mapService.centerMapByUserState) {
           this.centerMapLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
         }
       }, error => {
@@ -149,7 +168,7 @@ export class MapComponent implements OnInit, OnDestroy {
       navigator.geolocation.watchPosition(position => {
         console.log('Got user position: ', position);
         this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-        if (this.centerMapByUserState) {
+        if (this.mapService.centerMapByUserState) {
           this.centerMapLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
         }
       }, error => {
@@ -161,7 +180,18 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   onMapCenterChanged(event) {
-    this.centerMapByUserState = false;
+    if (!!this.userLocation) {
+      // If new center coords is same as user coords the map if following the user,
+      // else it means that center is moved by the user and centerMapByUserState should be false.
+      if (!(this.isSameCoords(event.lat, this.userLocation.lat) &&
+        this.isSameCoords(event.lng, this.userLocation.lng))) {
+        this.mapService.centerMapByUserState = false;
+      }
+    }
+  }
+
+  isSameCoords(c1: number, c2: number): boolean {
+    return Math.round(c1 * 1000000) / 1000000 === Math.round(c2 * 1000000) / 1000000;
   }
 
   onMarkerClick(event) {
@@ -172,9 +202,13 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   onUserMarkerClick(event) {
+    this.setFollowUser();
+  }
+
+  setFollowUser() {
     this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
     setTimeout(() => {
-      this.centerMapByUserState = true;
+      this.mapService.centerMapByUserState = true;
     }, 50);
   }
 
@@ -204,6 +238,12 @@ export class MapComponent implements OnInit, OnDestroy {
     } else {
       this.directionsOptions.selectedMode = mode.mode;
     }
+  }
+
+  setDestinationOrigin() {
+    this.setDestinationOriginState = true;
+    this.directionOrigin = undefined;
+    this.toasterService.onShowToaster('Välj startpunkt genom att klicka på kartan', 'info');
   }
 
 
