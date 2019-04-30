@@ -27,8 +27,8 @@ export class MapComponent implements OnInit, OnDestroy {
   sensors: Sensor[] = [];
 
   // Map Options
-  centerMapLocation: Coords = {lat: 59.313884, lng: 18.035978};
-  userLocation: Coords;
+  centerMapLocation: any = {lat: 59.313884, lng: 18.035978};
+  userLocation: any;
   markerIconOptions = {
     url: '/assets/icon/sensor.png',
     scaledSize: {
@@ -85,7 +85,7 @@ export class MapComponent implements OnInit, OnDestroy {
   private setSubscriptions() {
     // Subscribe to map center change
     let subscription = this.mapService.flyToEmitter.subscribe((sensor: Sensor) => {
-      this.centerMapLocation = {lat: sensor.lat, lng: sensor.lng};
+      this.centerMapLocation = {lat: sensor.coords.lat, lng: sensor.coords.lng};
     });
     this.subscriptions.push(subscription);
 
@@ -109,7 +109,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   setDirections(destinationSensor: Sensor) {
     // Set direction destination to the sensor location
-    this.directionDestination = {lat: destinationSensor.lat, lng: destinationSensor.lng};
+    this.directionDestination = {lat: destinationSensor.coords.lat, lng: destinationSensor.coords.lng};
     // If user location is found, set user location as destination origin
     if (!!this.userLocation) {
       this.directionOrigin = this.userLocation;
@@ -187,7 +187,7 @@ export class MapComponent implements OnInit, OnDestroy {
   getSensorFromList(lat: number, lng: number): Sensor {
     let sensorFound: Sensor;
     this.sensors.forEach(sensor => {
-      if (sensor.lng === lng && sensor.lat === lat) {
+      if (sensor.coords.lng === lng && sensor.coords.lat === lat) {
         sensorFound = sensor;
       }
     });

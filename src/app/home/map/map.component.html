@@ -25,8 +25,8 @@
   <agm-marker #marker
               (markerClick)="onMarkerClick($event)"
               *ngFor="let sensor of sensors"
-              [latitude]="sensor.lat"
-              [longitude]="sensor.lng"
+              [latitude]="sensor.coords.lat"
+              [longitude]="sensor.coords.lng"
               [iconUrl]="markerIconOptions">
 
   </agm-marker>

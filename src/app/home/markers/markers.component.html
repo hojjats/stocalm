@@ -1,7 +1,7 @@
   <div #markersContainer class="markers-container ion-padding">
     <ul>
       <li *ngFor="let sensor of apiService.sensors$ | async">
-        <ion-button (click)="flyTo(sensor)">{{sensor.name}}</ion-button>
+        <ion-button (click)="flyTo(sensor)">{{sensor.coords.location.name}}</ion-button>
       </li>
     </ul>
   </div>
