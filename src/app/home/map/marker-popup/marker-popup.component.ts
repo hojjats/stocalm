@@ -12,6 +12,9 @@ export class MarkerPopupComponent implements OnInit {
 
   sensor: Sensor;
 
+  popupOpen = false;
+  popupImgUrl: string;
+
   constructor(public dialogRef: MatDialogRef<MarkerPopupComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Sensor,
               public mapService: MapService) {
@@ -28,6 +31,15 @@ export class MarkerPopupComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  togglePopupImg(imgUrl?: string) {
+    if (this.popupOpen) {
+      this.popupImgUrl = undefined;
+    } else {
+      this.popupImgUrl = imgUrl;
+    }
+    this.popupOpen = !this.popupOpen;
   }
 
 }

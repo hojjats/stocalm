@@ -13,9 +13,9 @@
     </li>
   </ul>
 </div>
-<div class="search-container" *ngIf="sensors.length >0">
-  <app-search [sensors]="sensors"></app-search>
-</div>
+
+<app-search [sensors]="sensors" *ngIf="sensors.length > 0"></app-search>
+
 <agm-map #map
          (mapClick)="onMapClick($event)"
          (centerChange)="onMapCenterChanged($event)"

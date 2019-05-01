@@ -28,10 +28,27 @@ ul, li {
   padding: 0;
 }
 
-
+.cdk-overlay-pane{
+  overflow-y: scroll;
+}
 
 .nav-bar {
   position: fixed;
   bottom: 0;
 
+}
+
+@media only screen and (min-width: 600px) {
+  .cdk-overlay-pane{
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 5px;
+    }
+  }
 }

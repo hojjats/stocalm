@@ -1,9 +1,12 @@
 .container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
   display: grid;
-  grid-template-columns: 1fr 8fr;
   grid-template-areas: "button input" "result result";
-  width: 100%;
   align-items: center;
+  grid-template-columns: 1fr 8fr;
+  width: calc(100% - 20px);
 
   .search-icon {
     padding: 1em;
@@ -12,7 +15,7 @@
     background-color: white;
     display: inline-block;
     position: relative;
-    z-index: 2;
+    z-index: 3;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
     cursor: pointer;
   }
@@ -20,10 +23,11 @@
   .search-input {
     grid-area: input;
     width: 0px;
+    width: 0px;
     margin: 0;
     border: none;
     transform: translateX(-1.5em);
-    z-index: 1;
+    z-index: 2;
     position: relative;
     transition: all 1s ease;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
@@ -68,12 +72,19 @@
     padding: 0px;
     overflow: hidden;
     transition: all 1s ease;
+    z-index: 1;
 
     ul {
 
       li {
         cursor: pointer;
-        white-space: nowrap
+        white-space: nowrap;
+        padding: 0.5em 0;
+        border-bottom: 1px solid #ccc;
+
+        &:last-child {
+          border: none;
+        }
       }
     }
   }
@@ -84,6 +95,12 @@
     transition: all 1s ease;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
   }
+}
+
+.container-open{
+  grid-template-columns: 1fr 8fr;
+  width: calc(100% - 20px);
+  grid-template-areas: "button input" "result result";
 }
 
 @media only screen and (min-width: 600px) {
