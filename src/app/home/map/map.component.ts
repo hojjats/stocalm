@@ -28,6 +28,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   // Map Options
   centerMapLocation: any = {lat: 59.313884, lng: 18.035978};
+  zoom = 13;
   userLocation: any;
   markerIconOptions = {
     url: '/assets/icon/sensor.png',
@@ -91,8 +92,10 @@ export class MapComponent implements OnInit, OnDestroy {
     // Subscribe to map center change
     let subscription = this.mapService.flyToEmitter.subscribe((sensor: Sensor) => {
       this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
+      this.zoom = this.mapRef.zoom;
       setTimeout(() => {
         this.centerMapLocation = {lat: sensor.coords.lat, lng: sensor.coords.lng};
+        this.zoom = 18;
       }, 50);
     });
     this.subscriptions.push(subscription);
