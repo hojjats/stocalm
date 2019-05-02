@@ -9,3 +9,46 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+* {
+  :focus {
+    outline: 0;
+  }
+}
+
+html {
+  font-size: 1.1em;
+}
+
+ul, li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cdk-overlay-pane{
+  overflow-y: scroll;
+}
+
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+
+}
+
+@media only screen and (min-width: 600px) {
+  .cdk-overlay-pane{
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 5px;
+    }
+  }
+}

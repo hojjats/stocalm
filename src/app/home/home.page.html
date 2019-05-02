@@ -1,21 +1,5 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Sök sensorer
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="container">
+  <app-markers></app-markers>
+  <app-map></app-map>
 
-<ion-content>
-  <div class="ion-padding">
-    <input #input type="number" (input)="onSearchSensor(input.value)" placeholder="Ange ID (1 || 2)">
-    <h2>Avläsning från sensor: {{input.value}}</h2>
-    <ul *ngIf="readings.length > 0">
-      <li *ngFor="let reading of readings">
-        <p>Datum: {{reading.date}}</p>
-        <p>Tid: {{reading.time}}</p>
-        <p>Decibellvärde: {{reading.value}}</p>
-      </li>
-    </ul>
-  </div>
-</ion-content>
+</div>
