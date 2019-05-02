@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  BASE_URL: 'http://localhost:8080/api/'
+  BASE_URL: 'http://localhost:8080/api/',
+  mapBoxAccessToken: 'pk.eyJ1IjoicHZ0Z3J1cHAzIiwiYSI6ImNqdXFwejhxZTB5dXIzeXNqbHo3ZWpha3IifQ.FdqQ_yP2hR1QBSyLE1EMig'
 };
 
 /*

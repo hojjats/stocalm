@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {ApiService} from '../shared/api.service';
+import {ApiService} from '../shared/services/api.service';
 import {Sensor} from '../shared/models/sensor.model';
 import {Reading} from '../shared/models/reading.model';
 import {Subscription} from 'rxjs';
@@ -25,12 +25,6 @@ export class HomePage implements OnDestroy {
     this.readings = []; // Set init
     if (!!value) {
       const id = Number.parseInt(value, 10);
-      this.apiService.getReadingsBySensorId(id)
-        .subscribe((sensor: Sensor) => {
-          if (!!sensor) {
-            this.readings = sensor.readings;
-          }
-        });
     }
   }
 

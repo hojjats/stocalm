@@ -1,0 +1,7 @@
+<div *ngIf="toasterService.showToaster"
+     class="toaster"
+     (click)="toasterService.showToaster = false"
+     [ngClass]="toasterService.toasterType"
+     [ngStyle]="toasterService.position">
+  {{toasterService.message}}
+</div>

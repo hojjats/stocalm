@@ -1,0 +1,26 @@
+<div class="container" [ngClass]="{'container-open': openSearchInput}">
+  <span class="search-icon"
+        (click)="toggleOpenSearchInput()">
+    <i class="fas fa-search"></i>
+</span>
+
+  <div class="search-input" [ngClass]="{'open': openSearchInput}">
+    <div class="no-break">
+      <input #input
+             (input)="search(input.value)"
+             type="text">
+      <span>Avancerad sök</span>
+    </div>
+  </div>
+  <div class="search-result"
+       [ngClass]="{'search-result-open': searchResult.length > 0 && openSearchInput}">
+    <ul>
+      <li *ngFor="let sensor of searchResult"
+          (click)="onSearchResultClick(sensor)">
+        {{sensor.coords.location.name}}
+      </li>
+    </ul>
+
+  </div>
+
+</div>

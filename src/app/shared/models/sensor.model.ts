@@ -1,8 +1,8 @@
 import {Reading} from './reading.model';
+import {Coords} from './coords.model';
 
 export interface Sensor {
   id: string;
-  x: number;
-  y: number;
+  coords: Coords;
   readings: Reading[];
 }
