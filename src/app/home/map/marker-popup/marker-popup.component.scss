@@ -1,5 +1,25 @@
 .container {
-  
+
+  .header{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+
+    h1{
+      display: inline-block;
+      margin: 0;
+    }
+    .direction-button{
+      justify-self: end;
+      color: #3880ff;
+      font-size: 2em;
+      i{
+        cursor: pointer;
+      }
+    }
+  }
+
+
   .image-container {
     width: 300px;
     max-width: 100%;

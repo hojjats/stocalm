@@ -1,16 +1,13 @@
 <div class="container">
-  <h1>{{sensor.coords.location.name}}</h1>
+  <div class="header">
+    <h1>{{sensor.coords.location.name}}</h1>
+    <span class="direction-button"><i (click)="onShowDirection()" class="fas fa-directions"></i></span>
+  </div>
   <div class="image-container" *ngIf="sensor.coords.location.imgUrl !== '' && !!sensor.coords.location.imgUrl">
     <img #img [src]="sensor.coords.location.imgUrl" (click)="togglePopupImg(img.src)">
   </div>
-  <h3>Mätvärden</h3>
-  <ul>
-    <li *ngFor="let reading of sensor.readings">
-      <p>{{reading.date}}, {{reading.time}}</p>
-      <p>Decibellvärde: {{reading.value}}</p>
-    </li>
-  </ul>
-  <ion-button (click)="onShowDirection()">Vägbeskrivning</ion-button>
+  <h3>Decibellnivå</h3>
+  <app-chart [readings]="sensor.readings"></app-chart>
 </div>
 <div class="popup" *ngIf="popupOpen" (click)="togglePopupImg()">
   <img [src]="popupImgUrl">

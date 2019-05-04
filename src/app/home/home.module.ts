@@ -11,6 +11,8 @@ import {MarkersComponent} from './markers/markers.component';
 import {AgmCoreModule} from '@agm/core';
 import {AgmDirectionModule} from 'agm-direction';
 import {SearchComponent} from './map/search/search.component';
+import {ChartsModule} from 'ng2-charts';
+import {ChartComponent} from './map/marker-popup/chart/chart.component';
 
 @NgModule({
   imports: [
@@ -32,7 +34,7 @@ import {SearchComponent} from './map/search/search.component';
     HomePage,
     MapComponent,
     MarkersComponent,
-    SearchComponent
+    SearchComponent,
   ],
   entryComponents: [],
 })

@@ -28,8 +28,9 @@ ul, li {
   padding: 0;
 }
 
-.cdk-overlay-pane{
-  overflow-y: scroll;
+.mat-dialog-container{
+  overflow-y: scroll !important;
+  max-height: 100vh !important;
 }
 
 .nav-bar {
@@ -39,7 +40,7 @@ ul, li {
 }
 
 @media only screen and (min-width: 600px) {
-  .cdk-overlay-pane{
+  .mat-dialog-container{
     &::-webkit-scrollbar {
       width: 10px;
     }
