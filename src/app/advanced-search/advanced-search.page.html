@@ -5,11 +5,14 @@
 </ion-header>
 
 <ion-content>
-    <ion-label>Decibel</ion-label>
+    <div class="centered-component">
+        <ion-label>Decibel</ion-label>
+    </div>
     <ion-item>
-        <ion-range min="0" max="140" dualKnobs="true" step="100">
-            <ion-label slot="start">0</ion-label>
-            <ion-label slot="end">140</ion-label>
+        <ion-range [min]="min" [max]="max" dualKnobs="true" value="80" [(ngModel)]="decibel"
+                   (ionChange)="change()">
+            <ion-label slot="start">{{min2}}</ion-label>
+            <ion-label slot="end">{{max2}}</ion-label>
         </ion-range>
     </ion-item>
 
@@ -25,13 +28,15 @@
         <ion-label>Badplats</ion-label>
         <ion-checkbox></ion-checkbox>
     </ion-item>
-
-    <ion-button>Filtrera</ion-button>
-
-    <ion-item>
-        <ion-label>Antal resultat:</ion-label>
-        <ion-label>resultatet</ion-label>
-    </ion-item>
+    <div class="bottom-panel">
+        <ion-item>
+            <ion-label>Antal resultat:</ion-label>
+            <ion-label>resultatet</ion-label>
+        </ion-item>
+        <div class="centered-component">
+            <ion-button>Filtrera</ion-button>
+        </div>
+    </div>
 
 
 </ion-content>
