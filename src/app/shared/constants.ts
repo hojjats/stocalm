@@ -1,6 +1,7 @@
 export class Constants {
 
-  public static DAYS = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'];
+  public static DAYS_MONDAY_FIRST = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'];
+  public static DAYS_SUNDAY_FIRST = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'];
   public static HOURS = [
     '00:00',
     '01:00',

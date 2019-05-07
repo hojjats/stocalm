@@ -1,21 +1,27 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Sensor} from '../../../shared/models/sensor.model';
 import {MapService} from '../../../shared/services/map.service';
 import {ApiService} from '../../../shared/services/api.service';
-import {Constants} from '../../../shared/constants';
+import {Weather} from '../../../shared/models/weather.model';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-marker-popup',
   templateUrl: './marker-popup.component.html',
   styleUrls: ['./marker-popup.component.scss'],
 })
-export class MarkerPopupComponent implements OnInit {
+export class MarkerPopupComponent implements OnInit, OnDestroy {
 
   sensor: Sensor;
 
   popupOpen = false;
   popupImgUrl: string;
+
+  weather: Weather;
+  weatherSymbolNumber: number;
+
+  subscriptions: Subscription[] = [];
 
   constructor(public dialogRef: MatDialogRef<MarkerPopupComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Sensor,
@@ -25,6 +31,21 @@ export class MarkerPopupComponent implements OnInit {
 
   ngOnInit() {
     this.sensor = this.data;
+    const subscription1 = this.apiService.getRealTimeWeather(this.sensor.coords.lng, this.sensor.coords.lat, 't')
+      .subscribe((weather: Weather) => {
+        this.weather = weather;
+      });
+    this.subscriptions.push(subscription1);
+
+    const subscription2 = this.apiService.getRealTimeWeather(this.sensor.coords.lng, this.sensor.coords.lat, 'Wsymb2')
+      .subscribe((weather: Weather) => {
+        this.weatherSymbolNumber = weather.values[0];
+      });
+    this.subscriptions.push(subscription2);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   onShowDirection() {

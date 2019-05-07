@@ -6,11 +6,12 @@ import {Subscription} from 'rxjs';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {AgmMap} from '@agm/core';
+import {AgmMap, GoogleMapsAPIWrapper} from '@agm/core';
 import {MarkerPopupComponent} from './marker-popup/marker-popup.component';
 import {Translations} from '../../shared/translations';
 import {ToasterService} from '../../shared/services/toaster.service';
 import {ControlPosition, MapTypeControlStyle} from '@agm/core/services/google-maps-types';
+
 
 @Component({
   selector: 'app-map',
@@ -20,8 +21,9 @@ import {ControlPosition, MapTypeControlStyle} from '@agm/core/services/google-ma
 export class MapComponent implements OnInit, OnDestroy {
 
   // ViewChildren
-  @ViewChild('map') mapRef: AgmMap;
-  @ViewChild('direction') direction: any;
+  @ViewChild('map') private mapRef: AgmMap;
+  @ViewChild('direction') private direction: any;
+  @ViewChild(GoogleMapsAPIWrapper) private gmapWrapper: GoogleMapsAPIWrapper;
 
   // All sensors from database
   sensors: Sensor[] = [];

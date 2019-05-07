@@ -1,7 +1,17 @@
 <div class="container">
   <div class="header">
     <h1>{{sensor.coords.location.name}}</h1>
-    <span class="direction-button"><i (click)="onShowDirection()" class="fas fa-directions"></i></span>
+    <span class="direction-button">
+      <i (click)="onShowDirection()" class="fas fa-directions"></i>
+    </span>
+  </div>
+  <div class="weather">
+    <span *ngIf="!!weather" class="temperature">
+      <h1>{{weather.values[0] | number:'1.0-0'}}°</h1>
+    </span>
+    <span *ngIf="!!weatherSymbolNumber" class="icon">
+      <img [src]="'/assets/weather/'+weatherSymbolNumber+'.png'">
+    </span>
   </div>
   <div class="image-container" *ngIf="sensor.coords.location.imgUrl !== '' && !!sensor.coords.location.imgUrl">
     <img #img [src]="sensor.coords.location.imgUrl" (click)="togglePopupImg(img.src)">

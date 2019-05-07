@@ -15,11 +15,10 @@ export class ChartComponent implements OnInit {
   weekdayMeanValues = [];
   hourMeanValues = [];
   day = new Date().getDay();
-  days = Constants.DAYS;
-
+  daysSundayFirst = Constants.DAYS_SUNDAY_FIRST;
 
   // Day chart
-  public barChartOptions: ChartOptions = {
+  public dayChartOptions: ChartOptions = {
     responsive: true,
     legend: {display: false},
     scales: {
@@ -35,12 +34,12 @@ export class ChartComponent implements OnInit {
       }
     }
   };
-  public barChartLabels: Label[] = Constants.DAYS;
-  public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
-  // public barChartPlugins = [pluginDataLabels];
+  public dayChartLabels: Label[] = Constants.DAYS_MONDAY_FIRST;
+  public dayChartType: ChartType = 'bar';
+  public dayChartLegend = true;
+  // public dayChartPlugins = [pluginDataLabels];
 
-  public barChartData: ChartDataSets[] = [];
+  public dayChartData: ChartDataSets[] = [];
 
   // Hour chart
   public hourChartOptions: ChartOptions = {
@@ -71,16 +70,38 @@ export class ChartComponent implements OnInit {
 
   ngOnInit() {
     this.setMeanValues();
+    this.setWeekdayChart();
     this.setHourChart(this.day);
-    this.barChartData.push({data: this.weekdayMeanValues, label: 'Medelvärde'});
+
   }
 
   setDay(number) {
     const newDay = this.day + number;
-    if (newDay >= 0 && newDay <= 6) {
+    if (newDay < 0) {
+      this.day = 6;
+    } else if (newDay > 6) {
+      this.day = 0;
+    } else {
       this.day = newDay;
-      this.setHourChart(this.day);
     }
+    this.setHourChart(this.day);
+  }
+
+  setWeekdayChart() {
+    // Copy weekdayMeanValues
+    const valuesMondayFirst = [];
+    for (let i = 0; i < this.weekdayMeanValues.length; i++) {
+      valuesMondayFirst[i] = this.weekdayMeanValues[i];
+    }
+
+    // Switch index 0 value to last index
+    const sundayValue = valuesMondayFirst.splice(0, 1);
+    valuesMondayFirst.push(sundayValue);
+
+    // Set
+    this.dayChartData.push({
+      data: valuesMondayFirst, label: 'Medelvärde'
+    });
   }
 
   setHourChart(day: number) {
@@ -91,7 +112,6 @@ export class ChartComponent implements OnInit {
   }
 
   setMeanValues() {
-
     if (this.readings != null) {
 
       const days: Reading[][][] = [];
@@ -104,7 +124,12 @@ export class ChartComponent implements OnInit {
 
       this.readings.forEach(reading => {
         const date = new Date(reading.date);
-        const dayOfWeek: number = date.getDay();
+        let dayOfWeek: number = date.getDay();
+        if (dayOfWeek === 0) {
+          dayOfWeek = 6;
+        } else {
+          dayOfWeek -= 1;
+        }
         const hour: number = Number.parseInt(reading.time.substr(0, 2), 10); // 0(0) - 23
         days[dayOfWeek][hour].push(reading);
       });
@@ -142,8 +167,6 @@ export class ChartComponent implements OnInit {
 
       this.hourMeanValues = hourMeanValues;
       this.weekdayMeanValues = weekdaymMeanValues;
-      console.log(this.hourMeanValues);
-      console.log(weekdaymMeanValues);
     }
 
   }
