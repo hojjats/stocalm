@@ -38,4 +38,9 @@ export class ApiService {
   getSensors() {
     return this.httpClient.get(environment.BASE_URL + 'sensors');
   }
+
+  test() {
+    this.httpClient.get(environment.BASE_URL + 'sensors/graph/weekdays',);
+  }
+
 }
