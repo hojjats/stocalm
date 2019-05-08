@@ -30,6 +30,5 @@ export class AdvancedSearchPage implements OnInit {
   }
 
   filter() {
-
   }
 }
