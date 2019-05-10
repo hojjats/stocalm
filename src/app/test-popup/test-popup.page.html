@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>testPopup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div *ngFor="let sensor of apiService.sensors$ | async">
+  <span *ngIf="sensor.id == '5cc96a111c9d4400005b59f1' ">
+  <li >Print me {{sensor.id}}</li>
+  <img #img [src]="sensor.coords.location.imgUrl">
+  <ion-button (click)="shareTwitter(img.src)" icon-only><ion-icon name="logo-twitter"></ion-icon></ion-button>
+  </span>
+  
+
+
+</div>
+<ion-button (click)="shareTwitter()" icon-only><ion-icon name="logo-twitter"></ion-icon></ion-button>
+</ion-content>

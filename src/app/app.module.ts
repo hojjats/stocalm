@@ -17,6 +17,9 @@ import {MarkerPopupComponent} from './home/map/marker-popup/marker-popup.compone
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {ToasterPopupComponent} from './shared/toaster-popup/toaster-popup.component';
 
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { File } from '@ionic-native/file/ngx';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +40,9 @@ import {ToasterPopupComponent} from './shared/toaster-popup/toaster-popup.compon
     StatusBar,
     SplashScreen,
     Geolocation,
-    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    SocialSharing,
+    File
   ],
   bootstrap: [AppComponent],
   entryComponents: [MarkerPopupComponent]

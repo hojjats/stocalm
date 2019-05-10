@@ -20,7 +20,7 @@
        [ngClass]="{'search-result-open': searchResult.length > 0 && openSearchInput}">
     <ul>
       <li *ngFor="let sensor of searchResult"
-          (click)="onSearchResultClick(sensor)">
+          (click)="onSearchResultClick(sensor)" (click)="toggleOpenSearchInput()">
         {{sensor.coords.location.name}}
       </li>
     </ul>
