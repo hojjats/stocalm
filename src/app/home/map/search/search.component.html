@@ -9,7 +9,9 @@
       <input #input
              (input)="search(input.value)"
              type="text">
-      <span>Avancerad sök</span>
+
+      <ion-icon class="advanced-button" slot="icon-only" name="options" routerLink="./advanced-search"></ion-icon>
+
     </div>
   </div>
   <div class="search-result"

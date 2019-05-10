@@ -18,6 +18,9 @@ import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {ToasterPopupComponent} from './shared/toaster-popup/toaster-popup.component';
 import {ChartComponent} from './home/map/marker-popup/chart/chart.component';
 import {ChartsModule} from 'ng2-charts';
+import {ApiService} from './shared/services/api.service';
+import {FilterService} from './shared/services/filter.service';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -41,6 +44,8 @@ import {ChartsModule} from 'ng2-charts';
     StatusBar,
     SplashScreen,
     Geolocation,
+    ApiService,
+    FilterService,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],
   bootstrap: [AppComponent],

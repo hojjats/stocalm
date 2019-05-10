@@ -35,7 +35,7 @@ export class SearchComponent implements OnInit {
   }
 
   onSearchResultClick(sensor: Sensor) {
-    this.mapService.flyToEmitter.emit(sensor);
+    this.mapService.flyToEmitter.emit({lat: sensor.coords.lat, lng: sensor.coords.lng});
   }
 
   toggleOpenSearchInput() {

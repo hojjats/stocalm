@@ -7,17 +7,18 @@
   </div>
   <div class="weather">
     <span *ngIf="!!weather" class="temperature">
-      <h1>{{weather.values[0] | number:'1.0-0'}}°</h1>
+      <h1>{{weather.temp | number:'1.0-0'}}°</h1>
     </span>
-    <span *ngIf="!!weatherSymbolNumber" class="icon">
-      <img [src]="'/assets/weather/'+weatherSymbolNumber+'.png'">
+    <span *ngIf="!!weather" class="icon">
+      <img [src]="weather.iconUrl">
     </span>
   </div>
   <div class="image-container" *ngIf="sensor.coords.location.imgUrl !== '' && !!sensor.coords.location.imgUrl">
     <img #img [src]="sensor.coords.location.imgUrl" (click)="togglePopupImg(img.src)">
   </div>
   <h3>Decibellnivå</h3>
-  <app-chart [readings]="sensor.readings"></app-chart>
+  <app-chart [weekdayMeanValues]="sensor.weekdayMeanValue"
+             [hourMeanValues]="sensor.hourMeanValue"></app-chart>
 </div>
 <div class="popup" *ngIf="popupOpen" (click)="togglePopupImg()">
   <img [src]="popupImgUrl">

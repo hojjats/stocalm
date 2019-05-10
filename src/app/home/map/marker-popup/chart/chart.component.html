@@ -13,9 +13,13 @@
 </div>
 <div class="hour-chart" *ngIf="hourChartData.length > 0">
   <div class="day">
-    <span><i (click)="setDay(-1) " class="fas fa-chevron-left"></i></span>
-    <h3>{{daysSundayFirst[day]}}</h3>
-    <span><i (click)="setDay(1)" class="fas fa-chevron-right"></i></span>
+    <span><i (click)="onChangeDay(-1) "
+             class="fas fa-chevron-left"
+             [ngClass]="{'inactive': day === 0}"></i></span>
+    <h3>{{days[day]}}</h3>
+    <span><i (click)="onChangeDay(1)"
+             class="fas fa-chevron-right"
+             [ngClass]="{'inactive': day === 6}"></i></span>
   </div>
   <div class="chart-container">
     <canvas baseChart

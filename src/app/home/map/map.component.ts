@@ -11,6 +11,7 @@ import {MarkerPopupComponent} from './marker-popup/marker-popup.component';
 import {Translations} from '../../shared/translations';
 import {ToasterService} from '../../shared/services/toaster.service';
 import {ControlPosition, MapTypeControlStyle} from '@agm/core/services/google-maps-types';
+import {FilterService} from '../../shared/services/filter.service';
 
 
 @Component({
@@ -31,7 +32,6 @@ export class MapComponent implements OnInit, OnDestroy {
   // Map Options
   centerMapLocation: any = {lat: 59.313884, lng: 18.035978};
   zoom = 13;
-  userLocation: any;
   markerIconOptions = {
     url: '/assets/icon/sensor.png',
     scaledSize: {
@@ -69,8 +69,8 @@ export class MapComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   getUserLocationinterval: any;
 
-  constructor(public apiService: ApiService,
-              private mapService: MapService,
+  constructor(public fillterServie: FilterService,
+              public mapService: MapService,
               public dialog: MatDialog,
               private geolocation: Geolocation,
               private navigationService: NavigationService,
@@ -92,11 +92,11 @@ export class MapComponent implements OnInit, OnDestroy {
 
   private setSubscriptions() {
     // Subscribe to map center change
-    let subscription = this.mapService.flyToEmitter.subscribe((sensor: Sensor) => {
+    let subscription = this.mapService.flyToEmitter.subscribe(value => {
       this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
       this.zoom = this.mapRef.zoom;
       setTimeout(() => {
-        this.centerMapLocation = {lat: sensor.coords.lat, lng: sensor.coords.lng};
+        this.centerMapLocation = {lat: value.lat, lng: value.lng};
         this.zoom = 18;
       }, 50);
     });
@@ -118,15 +118,11 @@ export class MapComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(subscription);
 
-    // Get user position by interval
-    this.getUserLocationinterval = setInterval(() => {
-      this.getUserLocation();
-    }, 1000);
-
   }
 
   private getSensors() {
-    this.apiService.sensors$.subscribe((sensors: Sensor[]) => {
+    this.sensors = this.fillterServie.filteredSensors;
+    this.fillterServie.filteredSensors$.subscribe((sensors: Sensor[]) => {
       this.sensors = sensors;
     });
   }
@@ -135,8 +131,8 @@ export class MapComponent implements OnInit, OnDestroy {
     // Set direction destination to the sensor location
     this.directionDestination = {lat: destinationSensor.coords.lat, lng: destinationSensor.coords.lng};
     // If user location is found, set user location as destination origin
-    if (!!this.userLocation) {
-      this.directionOrigin = this.userLocation;
+    if (!!this.mapService.userLocation) {
+      this.directionOrigin = this.mapService.userLocation;
       // Else ask the user to set destination origin
     } else {
       this.setDestinationOriginState = true;
@@ -152,44 +148,12 @@ export class MapComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUserLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log('Got user position: ', position.coords.longitude, position.coords.latitude);
-        this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-        if (this.mapService.centerMapByUserState) {
-          this.centerMapLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-        }
-      }, error => {
-        console.error(error);
-      }, {timeout: 5000, enableHighAccuracy: true});
-    } else {
-      alert('Geolocation is not supported by this browser.');
-    }
-  }
-
-  trackUser() {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(position => {
-        console.log('Got user position: ', position);
-        this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-        if (this.mapService.centerMapByUserState) {
-          this.centerMapLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-        }
-      }, error => {
-        console.error(error);
-      }, {timeout: 5000, enableHighAccuracy: true});
-    } else {
-      alert('Geolocation is not supported by this browser.');
-    }
-  }
-
   onMapCenterChanged(event) {
-    if (!!this.userLocation) {
+    if (!!this.mapService.userLocation) {
       // If new center coords is same as user coords the map if following the user,
       // else it means that center is moved by the user and centerMapByUserState should be false.
-      if (!(this.isSameCoords(event.lat, this.userLocation.lat) &&
-        this.isSameCoords(event.lng, this.userLocation.lng))) {
+      if (!(this.isSameCoords(event.lat, this.mapService.userLocation.lat) &&
+        this.isSameCoords(event.lng, this.mapService.userLocation.lng))) {
         this.mapService.centerMapByUserState = false;
       }
     }

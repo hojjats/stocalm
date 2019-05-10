@@ -19,7 +19,6 @@ export class MarkerPopupComponent implements OnInit, OnDestroy {
   popupImgUrl: string;
 
   weather: Weather;
-  weatherSymbolNumber: number;
 
   subscriptions: Subscription[] = [];
 
@@ -31,17 +30,11 @@ export class MarkerPopupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sensor = this.data;
-    const subscription1 = this.apiService.getRealTimeWeather(this.sensor.coords.lng, this.sensor.coords.lat, 't')
+    const subscription1 = this.apiService.getRealTimeWeather(this.sensor.coords.lng, this.sensor.coords.lat)
       .subscribe((weather: Weather) => {
         this.weather = weather;
       });
     this.subscriptions.push(subscription1);
-
-    const subscription2 = this.apiService.getRealTimeWeather(this.sensor.coords.lng, this.sensor.coords.lat, 'Wsymb2')
-      .subscribe((weather: Weather) => {
-        this.weatherSymbolNumber = weather.values[0];
-      });
-    this.subscriptions.push(subscription2);
   }
 
   ngOnDestroy() {

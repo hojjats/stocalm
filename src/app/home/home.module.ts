@@ -3,16 +3,12 @@ import {CommonModule} from '@angular/common';
 import {IonicModule} from '@ionic/angular';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {AgmCoreModule} from '@agm/core';
+import {AgmDirectionModule} from 'agm-direction';
 
 import {HomePage} from './home.page';
 import {MapComponent} from './map/map.component';
-import {MarkersComponent} from './markers/markers.component';
-
-import {AgmCoreModule} from '@agm/core';
-import {AgmDirectionModule} from 'agm-direction';
 import {SearchComponent} from './map/search/search.component';
-import {ChartsModule} from 'ng2-charts';
-import {ChartComponent} from './map/marker-popup/chart/chart.component';
 
 @NgModule({
   imports: [
@@ -33,7 +29,6 @@ import {ChartComponent} from './map/marker-popup/chart/chart.component';
   declarations: [
     HomePage,
     MapComponent,
-    MarkersComponent,
     SearchComponent,
   ],
   entryComponents: [],

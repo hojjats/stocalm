@@ -21,7 +21,9 @@ export class ApiService {
           return <Sensor>{
             id: item.id,
             coords: item.position,
-            readings: item.readings
+            readings: item.readings,
+            hourMeanValue: item.hourMeanValue,
+            weekdayMeanValue: item.weekdayMeanValue
           };
         });
       })
@@ -44,10 +46,14 @@ export class ApiService {
     return this.httpClient.post(environment.BASE_URL + 'sensors/readings/' + sensorId, newReading);
   }
 
-  getRealTimeWeather(lng: number, lat: number, param: string) {
+  getRealTimeWeather(lng: number, lat: number) {
     return this.httpClient.get(
-      environment.BASE_URL + 'weather/now/lng/' + lng + '/lat/' + lat + '/param/' + param
+      environment.BASE_URL + 'weather/now/lng/' + lng + '/lat/' + lat
     );
+  }
+
+  getForecast(lng: number, lat: number) {
+    return this.httpClient.get(environment.BASE_URL + 'weather/forecast/lng/' + lng + '/lat/' + lat);
   }
 
 }

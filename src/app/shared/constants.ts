@@ -30,3 +30,9 @@ export class Constants {
   ];
 
 }
+
+export class  Filters {
+  public static LATEST_DECIBEL_VALUE = 0;
+  public static TODAY_DECIBEL_MEAN_VALUE = 1;
+  public static DISTANCE = 2;
+}
