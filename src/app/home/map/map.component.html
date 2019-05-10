@@ -26,6 +26,7 @@
          [streetViewControl]="false"
          [zoomControl]="false"
          [mapTypeControlOptions]="MTCOption"
+         [usePanning]="true"
 >
 
   <agm-marker #marker
@@ -37,9 +38,9 @@
 
   </agm-marker>
   <agm-marker (markerClick)="onUserMarkerClick()"
-              *ngIf="userLocation"
-              [latitude]="userLocation.lat"
-              [longitude]="userLocation.lng"
+              *ngIf="!!mapService.userLocation"
+              [latitude]="mapService.userLocation.lat"
+              [longitude]="mapService.userLocation.lng"
               [iconUrl]="userIconOptions">
 
   </agm-marker>

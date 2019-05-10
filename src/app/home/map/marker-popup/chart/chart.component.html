@@ -1,0 +1,36 @@
+<div class="weekdays-chart" *ngIf="dayChartData.length > 0">
+  <div class="chart-container">
+    <canvas baseChart
+            height="250px"
+            [datasets]="dayChartData"
+            [labels]="dayChartLabels"
+            [options]="dayChartOptions"
+            [plugins]="dayChartPlugins"
+            [legend]="dayChartLegend"
+            [chartType]="dayChartType">
+    </canvas>
+  </div>
+</div>
+<div class="hour-chart" *ngIf="hourChartData.length > 0">
+  <div class="day">
+    <span><i (click)="onChangeDay(-1) "
+             class="fas fa-chevron-left"
+             [ngClass]="{'inactive': day === 0}"></i></span>
+    <h3>{{days[day]}}</h3>
+    <span><i (click)="onChangeDay(1)"
+             class="fas fa-chevron-right"
+             [ngClass]="{'inactive': day === 6}"></i></span>
+  </div>
+  <div class="chart-container">
+    <canvas baseChart
+            height="400px"
+            [datasets]="hourChartData"
+            [labels]="hourChartLabels"
+            [options]="hourChartOptions"
+            [plugins]="hourChartPlugins"
+            [legend]="hourChartLegend"
+            [chartType]="hourChartType">
+    </canvas>
+
+  </div>
+</div>

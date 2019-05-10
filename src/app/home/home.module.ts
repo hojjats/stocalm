@@ -3,13 +3,11 @@ import {CommonModule} from '@angular/common';
 import {IonicModule} from '@ionic/angular';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {AgmCoreModule} from '@agm/core';
+import {AgmDirectionModule} from 'agm-direction';
 
 import {HomePage} from './home.page';
 import {MapComponent} from './map/map.component';
-import {MarkersComponent} from './markers/markers.component';
-
-import {AgmCoreModule} from '@agm/core';
-import {AgmDirectionModule} from 'agm-direction';
 import {SearchComponent} from './map/search/search.component';
 
 @NgModule({
@@ -31,8 +29,7 @@ import {SearchComponent} from './map/search/search.component';
   declarations: [
     HomePage,
     MapComponent,
-    MarkersComponent,
-    SearchComponent
+    SearchComponent,
   ],
   entryComponents: [],
 })

@@ -4,6 +4,7 @@ import {environment} from './../../../environments/environment';
 import {Sensor} from './../models/sensor.model';
 import {Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {Reading} from '../models/reading.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,9 @@ export class ApiService {
           return <Sensor>{
             id: item.id,
             coords: item.position,
-            readings: item.readings
+            readings: item.readings,
+            hourMeanValue: item.hourMeanValue,
+            weekdayMeanValue: item.weekdayMeanValue
           };
         });
       })
@@ -39,8 +42,18 @@ export class ApiService {
     return this.httpClient.get(environment.BASE_URL + 'sensors');
   }
 
-  test() {
-    this.httpClient.get(environment.BASE_URL + 'sensors/graph/weekdays',);
+  addReading(sensorId: string, newReading: Reading) {
+    return this.httpClient.post(environment.BASE_URL + 'sensors/readings/' + sensorId, newReading);
+  }
+
+  getRealTimeWeather(lng: number, lat: number) {
+    return this.httpClient.get(
+      environment.BASE_URL + 'weather/now/lng/' + lng + '/lat/' + lat
+    );
+  }
+
+  getForecast(lng: number, lat: number) {
+    return this.httpClient.get(environment.BASE_URL + 'weather/forecast/lng/' + lng + '/lat/' + lat);
   }
 
 }
