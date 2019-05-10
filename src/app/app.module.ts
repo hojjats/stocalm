@@ -21,6 +21,7 @@ import {ChartsModule} from 'ng2-charts';
 import {ApiService} from './shared/services/api.service';
 import {FilterService} from './shared/services/filter.service';
 import {ReactiveFormsModule} from '@angular/forms';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     Geolocation,
     ApiService,
     FilterService,
-    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    SocialSharing
   ],
   bootstrap: [AppComponent],
   entryComponents: [MarkerPopupComponent]

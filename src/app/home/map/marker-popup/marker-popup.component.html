@@ -1,9 +1,15 @@
 <div class="container">
   <div class="header">
     <h1>{{sensor.coords.location.name}}</h1>
+    <span>
+      <ion-button (click)="shareTwitter()"><ion-icon name="logo-twitter"></ion-icon></ion-button>
+      <ion-button (click)="shareFacebook()"><ion-icon name="logo-facebook"></ion-icon></ion-button>
+      <ion-button (click)="shareInstagram()"><ion-icon name="logo-instagram"></ion-icon></ion-button>
+      <ion-button (click)="shareSms()"><ion-icon name="ios-text"></ion-icon></ion-button>
     <span class="direction-button">
       <i (click)="onShowDirection()" class="fas fa-directions"></i>
     </span>
+  </span>
   </div>
   <div class="weather">
     <span *ngIf="!!weather" class="temperature">
