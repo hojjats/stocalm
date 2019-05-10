@@ -86,6 +86,7 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
     }
   }
 
+
   setFilterByTodayMeanValue() {
     const minValue = this.filterService.form.get('decibelMeanValue').value.lower;
     const maxValue = this.filterService.form.get('decibelMeanValue').value.upper;
@@ -105,7 +106,6 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
         this.filterService.activeFilters.push(Filters.TODAY_DECIBEL_MEAN_VALUE);
       }
     }
-  }
 
 
 }
