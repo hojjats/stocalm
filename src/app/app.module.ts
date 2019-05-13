@@ -16,6 +16,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MarkerPopupComponent} from './home/map/marker-popup/marker-popup.component';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {ToasterPopupComponent} from './shared/toaster-popup/toaster-popup.component';
+import {ChartComponent} from './home/map/marker-popup/chart/chart.component';
+import {ChartsModule} from 'ng2-charts';
+import {ApiService} from './shared/services/api.service';
+import {FilterService} from './shared/services/filter.service';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -23,6 +28,7 @@ import {ToasterPopupComponent} from './shared/toaster-popup/toaster-popup.compon
     AppComponent,
     NavigationComponent,
     MarkerPopupComponent,
+    ChartComponent,
     ToasterPopupComponent
   ],
   imports: [
@@ -31,12 +37,15 @@ import {ToasterPopupComponent} from './shared/toaster-popup/toaster-popup.compon
     MatDialogModule,
     AppRoutingModule,
     HttpClientModule,
+    ChartsModule,
     IonicModule.forRoot(),
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Geolocation,
+    ApiService,
+    FilterService,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],
   bootstrap: [AppComponent],

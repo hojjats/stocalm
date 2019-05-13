@@ -34,12 +34,14 @@
     "@ionic/storage": "^2.2.0",
     "agm-direction": "^0.7.6",
     "ajv": "^6.10.0",
-    "cordova-ios": "5.0.1",
+    "chart.js": "^2.8.0",
+    "cordova-android": "8.0.0",
     "cordova-plugin-geolocation": "4.0.1",
     "cordova-sqlite-storage": "3.2.0",
     "core-js": "^2.5.4",
     "geolocation-marker": "^2.0.5",
     "mapbox-gl": "^0.53.1",
+    "ng2-charts": "^2.2.3",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.29"
   },
@@ -85,11 +87,13 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
       "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
-      "ios"
+      "android"
     ]
   }
 }
