@@ -22,6 +22,7 @@ import {ApiService} from './shared/services/api.service';
 import {FilterService} from './shared/services/filter.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { ShareButtonsModule } from '@ngx-share/buttons';
 
 
 @NgModule({
@@ -40,6 +41,8 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
     HttpClientModule,
     ChartsModule,
     IonicModule.forRoot(),
+    HttpClientModule,
+    ShareButtonsModule
   ],
   providers: [
     StatusBar,

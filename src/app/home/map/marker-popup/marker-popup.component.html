@@ -18,9 +18,18 @@
   <div class="button-group">
     <ion-button size="small" color="primary">Om Parken</ion-button>
     <ion-button (click)="onShowDirection()" size="small" color="primary">Hitta hit</ion-button>
-    <ion-button (click)="shareTwitter()">
-      <ion-icon name="logo-twitter"></ion-icon>
-    </ion-button>
+    <span class="shareButtons">
+        <share-buttons [theme]="'default'"
+                       [include]="['facebook','twitter']"
+                       [show]="2"
+                       [showText]="false"
+                       [size]="-4"
+                       description="{{'Sitter i ' + sensor.coords.location.name + '! Det är ' + sensor.readings[0].value +
+        'db just nu. Använd appen själv här:'}}"
+                       [url]="'https://pvt.dsv.su.se/Group03'"
+                       [autoSetMeta]="false"
+        ></share-buttons>
+  </span>
   </div>
 
   <div class="decibel-container">
