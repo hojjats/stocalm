@@ -24,6 +24,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
