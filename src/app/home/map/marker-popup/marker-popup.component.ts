@@ -5,7 +5,8 @@ import {MapService} from '../../../shared/services/map.service';
 import {ApiService} from '../../../shared/services/api.service';
 import {Weather} from '../../../shared/models/weather.model';
 import {Subscription} from 'rxjs';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
+import {Constants} from '../../../shared/constants';
 
 @Component({
   selector: 'app-marker-popup',
@@ -22,6 +23,8 @@ export class MarkerPopupComponent implements OnInit, OnDestroy {
   weather: Weather;
 
   subscriptions: Subscription[] = [];
+
+  amenities = Constants.AMENITIES_TRANSLATION;
 
   constructor(public dialogRef: MatDialogRef<MarkerPopupComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Sensor,

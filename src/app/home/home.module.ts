@@ -8,7 +8,7 @@ import {AgmDirectionModule} from 'agm-direction';
 
 import {HomePage} from './home.page';
 import {MapComponent} from './map/map.component';
-import {SearchComponent} from './map/search/search.component';
+import {TopBarComponent} from './map/top-bar/top-bar.component';
 
 @NgModule({
   imports: [
@@ -29,7 +29,7 @@ import {SearchComponent} from './map/search/search.component';
   declarations: [
     HomePage,
     MapComponent,
-    SearchComponent,
+    TopBarComponent
   ],
   entryComponents: [],
 })

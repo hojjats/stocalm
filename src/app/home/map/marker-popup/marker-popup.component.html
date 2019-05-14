@@ -1,42 +1,50 @@
 <div class="container">
   <div class="header">
     <h1>{{sensor.coords.location.name}}</h1>
-    <span>
-      <ion-button (click)="shareTwitter()"><ion-icon name="logo-twitter"></ion-icon></ion-button>
-    <span class="direction-button">
-      <i (click)="onShowDirection()" class="fas fa-directions"></i>
-    </span>
-  </span>
-  </div>
-  <div class="weather">
+    <div class="weather">
     <span *ngIf="!!weather" class="temperature">
       <h1>{{weather.temp | number:'1.0-0'}}°</h1>
     </span>
-    <span *ngIf="!!weather" class="icon">
+      <span *ngIf="!!weather" class="icon">
       <img [src]="weather.iconUrl">
     </span>
+    </div>
   </div>
+
   <div class="image-container" *ngIf="sensor.coords.location.imgUrl !== '' && !!sensor.coords.location.imgUrl">
     <img #img [src]="sensor.coords.location.imgUrl" (click)="togglePopupImg(img.src)">
   </div>
-  <ion-row flex-wrap: nowrap> Adress
-        <ion-button size="small" color="primary">Om Parken</ion-button>
-        <ion-button size="small" color="primary">Hitta hit</ion-button>
-  </ion-row>
-  <div *ngFor="let reading of sensor.readings; last as isLast">
-      <ion-row *ngIf="isLast" [ngSwitch]="generateCurrentDecibel(reading.value)">
-          <div class="dbHeader">
-            <h3>Aktuell ljudnivå:</h3>
-            </div>
-            <div class="currentDecibel">
-            <li *ngSwitchCase="'low'"><img [src]="'/assets/icon/volume_low.png'"></li>
-            <li *ngSwitchCase="'middle'"><img [src]="'/assets/icon/volume_middle.png'"></li>
-            <li *ngSwitchCase="'high'"><img [src]="'/assets/icon/volume_high.png'"></li>
-            </div>
-      </ion-row>
+
+  <div class="button-group">
+    <ion-button size="small" color="primary">Om Parken</ion-button>
+    <ion-button (click)="onShowDirection()" size="small" color="primary">Hitta hit</ion-button>
+    <ion-button (click)="shareTwitter()">
+      <ion-icon name="logo-twitter"></ion-icon>
+    </ion-button>
   </div>
-  <div class="app-chart">
-  <app-chart [hourMeanValues]="sensor.hourMeanValue"></app-chart>
+
+  <div class="decibel-container">
+    <h3>Aktuell ljudnivå:</h3>
+    <img *ngIf="sensor.readings[0].value > 65" [src]="'/assets/icon/volume_high.png'">
+    <img *ngIf="sensor.readings[0].value < 65 && sensor.readings[0].value >= 50"
+         [src]="'/assets/icon/volume_middle.png'">
+    <img *ngIf="sensor.readings[0].value < 50" [src]="'/assets/icon/volume_low.png'">
+  </div>
+
+
+  <div class="chart-container">
+    <app-chart [hourMeanValues]="sensor.hourMeanValue"></app-chart>
+  </div>
+
+  <div class="amenities">
+    <h3>Bekvämligheter</h3>
+    <ul>
+      <li *ngFor="let amenity of amenities">
+        <i *ngIf="sensor.coords.location.amenities.includes(amenity.value)" class="fas fa-check"></i>
+        <i *ngIf="!sensor.coords.location.amenities.includes(amenity.value)" class="fas fa-times"></i>
+        {{amenity.sv}}
+      </li>
+    </ul>
   </div>
 </div>
 <div class="popup" *ngIf="popupOpen" (click)="togglePopupImg()">

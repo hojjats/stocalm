@@ -1,18 +1,25 @@
 .hour-chart {
-  .day {
-    text-align: center;
-    h3 {
+  .header{
+    h3{
       display: inline-block;
-      margin: 0 1em;
+      margin-right: 10px;
     }
-    span{
-      cursor: pointer;
+    .day {
+      text-align: center;
+      display: inline-block;
+      h3 {
+        display: inline-block;
+        margin: 0 1em;
+      }
+      span{
+        cursor: pointer;
+        color: #3780ff;
+      }
     }
   }
+
   .chart-container{
-    max-height: 200px;
     overflow: scroll;
-    border: 1px solid rgba(204, 204, 204, 1);
     &::-webkit-scrollbar {
       -webkit-appearance: scrollbarbutton-down;
     }
@@ -44,20 +51,12 @@
 }
 
 @media only screen and (min-width: 600px) {
-  .chart-container{
-    max-width: 400px;
-  }
-  .weekdays-chart{
-    width: 50%;
-    display: inline-block;
-  }
+
   .hour-chart{
-    width: 50%;
-    display: inline-block;
+
     .chart-container{
       max-height: inherit;
       overflow: auto;
-      max-width: 400px;
     }
   }
 }
