@@ -1,16 +1,3 @@
-<div class="weekdays-chart" *ngIf="dayChartData.length > 0">
-  <div class="chart-container">
-    <canvas baseChart
-            height="250px"
-            [datasets]="dayChartData"
-            [labels]="dayChartLabels"
-            [options]="dayChartOptions"
-            [plugins]="dayChartPlugins"
-            [legend]="dayChartLegend"
-            [chartType]="dayChartType">
-    </canvas>
-  </div>
-</div>
 <div class="hour-chart" *ngIf="hourChartData.length > 0">
   <div class="day">
     <span><i (click)="onChangeDay(-1) "
@@ -23,11 +10,10 @@
   </div>
   <div class="chart-container">
     <canvas baseChart
-            height="400px"
+            height="240px"
             [datasets]="hourChartData"
             [labels]="hourChartLabels"
             [options]="hourChartOptions"
-            [plugins]="hourChartPlugins"
             [legend]="hourChartLegend"
             [chartType]="hourChartType">
     </canvas>

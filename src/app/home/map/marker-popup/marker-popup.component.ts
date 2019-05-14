@@ -48,6 +48,18 @@ export class MarkerPopupComponent implements OnInit, OnDestroy {
     this.close();
   }
 
+  generateCurrentDecibel(db: number) {
+    if (db < 50) {
+      return 'low';
+    }
+    if (db >= 50 && db < 66) {
+      return 'middle';
+    }
+    if (db > 65) {
+      return 'high';
+    }
+  }
+
   close() {
     this.dialogRef.close();
   }

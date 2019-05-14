@@ -47,7 +47,8 @@ export class ChartComponent implements OnInit {
       xAxes: [{ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 5}}],
       yAxes: [{
         ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 5}
-      }],
+      },
+    ],
     },
     plugins: {
       datalabels: {
@@ -57,7 +58,7 @@ export class ChartComponent implements OnInit {
     }
   };
   public hourChartLabels: Label[] = Constants.HOURS;
-  public hourChartType: ChartType = 'horizontalBar';
+  public hourChartType: ChartType = 'bar';
   public hourChartLegend = true;
   // public hourChartPlugins = [pluginDataLabels];
 
