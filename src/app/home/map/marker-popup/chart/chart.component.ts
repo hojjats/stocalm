@@ -2,8 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Constants} from '../../../../shared/constants';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Label} from 'ng2-charts';
-import {Reading} from '../../../../shared/models/reading.model';
-import {Sensor} from '../../../../shared/models/sensor.model';
 
 @Component({
   selector: 'app-chart',
@@ -24,7 +22,7 @@ export class ChartComponent implements OnInit {
     scales: {
       xAxes: [{}],
       yAxes: [{
-        ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 5}
+        ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 5},
       }],
     },
     plugins: {

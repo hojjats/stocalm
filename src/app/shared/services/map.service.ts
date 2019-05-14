@@ -10,6 +10,7 @@ export class MapService {
   flyToEmitter: EventEmitter<any> = new EventEmitter();
   initiateDirections: EventEmitter<Sensor> = new EventEmitter();
   followUserEmitter: EventEmitter<boolean> = new EventEmitter();
+  openSensorCardEmitter: EventEmitter<Sensor> = new EventEmitter();
 
   // User location
   userLocation: any;
@@ -28,7 +29,10 @@ export class MapService {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         console.log('Got user position: ', position.coords.longitude, position.coords.latitude);
-        this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        if (!this.userLocation ||
+          (position.coords.longitude !== this.userLocation.lng || position.coords.latitude !== this.userLocation.lat)) {
+          this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        }
         if (this.centerMapByUserState) {
           this.flyToEmitter.emit({lat: position.coords.latitude, lng: position.coords.longitude});
         }

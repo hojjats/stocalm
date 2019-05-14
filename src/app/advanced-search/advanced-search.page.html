@@ -1,57 +1,62 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Avancerad sökning</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
 
-  <form class="form" [formGroup]="filterService.form" (ngSubmit)="onSubmit()">
-    <ion-item>
-      <label for="latestDecibel">Senaste decibellvärde</label>
-      <ion-range #latestDecibelRange id="latestDecibel"
-                 formControlName="latestDecibel"
-                 min="0"
-                 max="100"
-                 dualKnobs="true"
-                 (ionChange)="onFormChange()">
-        <ion-label slot="start">{{latestDecibelRange.value.lower}}</ion-label>
-        <ion-label slot="end">{{latestDecibelRange.value.upper}}</ion-label>
-      </ion-range>
-    </ion-item>
-    <ion-item>
-      <label for="decibelMeanValue">Decibel-medelvärde för idag</label>
-      <ion-range #decibelMeanValueRange id="decibelMeanValue"
-                 formControlName="decibelMeanValue"
-                 min="0"
-                 max="100"
-                 dualKnobs="true"
-                 (ionChange)="onFormChange()">
-        <ion-label slot="start">{{decibelMeanValueRange.value.lower}}</ion-label>
-        <ion-label slot="end">{{decibelMeanValueRange.value.upper}}</ion-label>
-      </ion-range>
-    </ion-item>
-    <ion-item>
-      <ion-label for="distance">Max avstånd (km)</ion-label>
-      <ion-input #input
-                 id="distance"
-                 formControlName="distance"
-                 type="number"
-                 (input)="onFormChange()"></ion-input>
-    </ion-item>
+  <app-search [setDisabled]="openFilterState"></app-search>
+  <ion-item>
+  <span class="filter-button"
+        (click)="openFilterState = !openFilterState"
+        [ngClass]="{'active': openFilterState}">
+    Filtrering
+    <i class="fas"
+       [ngClass]="openFilterState? 'fa-caret-up' : 'fa-caret-down'"></i>
+  </span>
+  </ion-item>
 
-    <div class="button-container">
-      <ion-button type="submit" [disabled]="!filterService.form.valid">Filtrera</ion-button>
-      <ion-button (click)="clearFilters()">Nollställ filter</ion-button>
+  <div *ngIf="openFilterState" class="filter-container">
+
+    <form class="form" [formGroup]="filterService.form" (ngSubmit)="onSubmit()">
+      <ion-item>
+        <label for="latestDecibel">Senaste decibellvärde</label>
+        <ion-range #latestDecibelRange id="latestDecibel"
+                   formControlName="latestDecibel"
+                   min="0"
+                   max="100"
+                   dualKnobs="true"
+                   (ionChange)="onFormChange()">
+          <ion-label slot="start">{{latestDecibelRange.value.lower}}</ion-label>
+          <ion-label slot="end">{{latestDecibelRange.value.upper}}</ion-label>
+        </ion-range>
+      </ion-item>
+      <ion-item>
+        <label for="decibelMeanValue">Decibel-medelvärde för idag</label>
+        <ion-range #decibelMeanValueRange id="decibelMeanValue"
+                   formControlName="decibelMeanValue"
+                   min="0"
+                   max="100"
+                   dualKnobs="true"
+                   (ionChange)="onFormChange()">
+          <ion-label slot="start">{{decibelMeanValueRange.value.lower}}</ion-label>
+          <ion-label slot="end">{{decibelMeanValueRange.value.upper}}</ion-label>
+        </ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-label for="distance">Max avstånd (km)</ion-label>
+        <ion-input #input
+                   id="distance"
+                   formControlName="distance"
+                   type="number"
+                   (input)="onFormChange()"></ion-input>
+      </ion-item>
+
+      <div class="button-container">
+        <ion-button type="submit" [disabled]="!filterService.form.valid">Filtrera</ion-button>
+        <ion-button (click)="clearFilters()">Nollställ filter</ion-button>
+      </div>
+    </form>
+
+    <div class="result-container">
+      <span class="result">{{filterService.tempFiltration.length}}</span>
+      <span class="result-text">Antal resultat</span>
     </div>
-  </form>
-
-  <div class="result-container">
-    <span class="result">{{filterService.tempFiltration.length}}</span>
-    <span class="result-text">Antal resultat</span>
   </div>
 
 

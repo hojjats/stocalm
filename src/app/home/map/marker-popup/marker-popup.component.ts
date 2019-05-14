@@ -49,10 +49,10 @@ export class MarkerPopupComponent implements OnInit, OnDestroy {
   }
 
   generateCurrentDecibel(db: number) {
-    if (db < 51) {
+    if (db < 50) {
       return 'low';
     }
-    if (db > 50 && db < 66) {
+    if (db >= 50 && db < 66) {
       return 'middle';
     }
     if (db > 65) {

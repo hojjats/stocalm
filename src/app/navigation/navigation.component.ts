@@ -33,9 +33,4 @@ export class NavigationComponent implements OnInit {
     this.navigationService.closePlaces();
   }
 
-  onToggleFollowUser() {
-    this.mapService.centerMapByUserState = !this.mapService.centerMapByUserState;
-    this.mapService.followUserEmitter.emit(this.mapService.centerMapByUserState);
-  }
-
 }
