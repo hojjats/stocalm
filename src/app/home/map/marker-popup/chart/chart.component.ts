@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Constants} from '../../../../shared/constants';
-import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
+import {ChartColor, ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Label} from 'ng2-charts';
 
 @Component({
@@ -22,7 +22,7 @@ export class ChartComponent implements OnInit {
     scales: {
       xAxes: [{}],
       yAxes: [{
-        ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 5},
+        ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 10},
       }],
     },
     plugins: {
@@ -46,9 +46,9 @@ export class ChartComponent implements OnInit {
     scales: {
       xAxes: [{ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 5}}],
       yAxes: [{
-        ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 5}
+        ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 10}
       },
-    ],
+      ],
     },
     plugins: {
       datalabels: {
@@ -85,8 +85,8 @@ export class ChartComponent implements OnInit {
     const newDay = this.day + number;
     if (newDay >= 0 && newDay < 7) {
       this.day = newDay;
+      this.setHourChart(this.day);
     }
-    this.setHourChart(this.day);
   }
 
   setWeekdayChart() {
@@ -101,6 +101,20 @@ export class ChartComponent implements OnInit {
     this.hourChartData.push({
       data: this.hourMeanValues[day], label: 'Medelvärde'
     });
+    const colors = [];
+    for (let i = 0; i < this.hourChartData[0].data.length; i++) {
+      const data = this.hourChartData[0].data[i];
+      console.log(data)
+      if (data > 65) {
+        colors.push('#f44242');
+      } else if (data >= 50) {
+        colors.push('#f4e541');
+      } else {
+        colors.push('#2dce2d');
+      }
+    }
+    this.hourChartData[0].backgroundColor = colors;
+
   }
 
 }

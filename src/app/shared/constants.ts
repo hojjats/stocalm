@@ -29,6 +29,14 @@ export class Constants {
     '23:00'
   ];
 
+  public static AMENITIES = ['bench', 'toilet', 'playground', 'parking'];
+  public static AMENITIES_TRANSLATION = [
+    {value: 'bench', sv: 'Bänkar'},
+    {value: 'toilet', sv: 'Toaletter'},
+    {value: 'playground', sv: 'Lekpark'},
+    {value: 'parking', sv: 'Parkering'}
+  ];
+
 }
 
 export class Filters {

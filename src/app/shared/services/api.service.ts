@@ -31,6 +31,7 @@ export class ApiService {
             const sensors = <Sensor[]><unknown>next;
             sensors.forEach(sensor => this.sortReadings(sensor));
             this.sensors = sensors;
+            console.log(this.sensors)
             this.sensors$.next(this.sensors);
         });
     }
