@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { AdvancedSearchPage } from './advanced-search.page';
+import {SearchComponent} from './search/search.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AdvancedSearchPage]
+  declarations: [
+    AdvancedSearchPage,
+    SearchComponent,
+  ]
 })
 export class AdvancedSearchPageModule {}

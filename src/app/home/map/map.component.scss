@@ -4,7 +4,7 @@ agm-map{
 
 .direction-container{
   position: absolute;
-  top: 0;
+  top: 7vh;;
   right: 0;
   z-index: 1;
   margin: 0.5em;
@@ -21,6 +21,19 @@ agm-map{
       background-color: #eee;
     }
   }
+}
+
+.follow-user-icon{
+  position: absolute;
+  bottom: 9vh;
+  right: 1em;
+  z-index: 1;
+  font-size: 2em;
+  color: #777;
+}
+
+.user-active{
+  color: #15b856;
 }
 
 @media only screen and (min-width: 600px) {

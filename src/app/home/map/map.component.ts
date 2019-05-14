@@ -32,8 +32,25 @@ export class MapComponent implements OnInit, OnDestroy {
   // Map Options
   centerMapLocation: any = {lat: 59.313884, lng: 18.035978};
   zoom = 13;
-  markerIconOptions = {
-    url: '/assets/icon/sensor.png',
+
+  markerIconLow = {
+    url: '/assets/icon/volume_low.png',
+    scaledSize: {
+      width: 50,
+      height: 50
+    }
+  };
+
+  markerIconMiddle = {
+    url: '/assets/icon/volume_middle.png',
+    scaledSize: {
+      width: 50,
+      height: 50
+    }
+  };
+
+  markerIconHigh = {
+    url: '/assets/icon/volume_high.png',
     scaledSize: {
       width: 50,
       height: 50
@@ -48,7 +65,7 @@ export class MapComponent implements OnInit, OnDestroy {
     }
   };
 
-  MTC = true;
+  MTC = false;
   MTCOption = {
     position: ControlPosition.TOP_RIGHT,
     style: MapTypeControlStyle.HORIZONTAL_BAR
@@ -99,6 +116,12 @@ export class MapComponent implements OnInit, OnDestroy {
         this.centerMapLocation = {lat: value.lat, lng: value.lng};
         this.zoom = 18;
       }, 50);
+    });
+    this.subscriptions.push(subscription);
+
+    // Subscripbe to open sensor card
+    subscription = this.mapService.openSensorCardEmitter.subscribe((sensor: Sensor) => {
+      this.openMarkerDialog(sensor);
     });
     this.subscriptions.push(subscription);
 
@@ -213,6 +236,11 @@ export class MapComponent implements OnInit, OnDestroy {
     this.setDestinationOriginState = true;
     this.directionOrigin = undefined;
     this.toasterService.onShowToaster('Välj startpunkt genom att klicka på kartan', 'info');
+  }
+
+  onToggleFollowUser() {
+    this.mapService.centerMapByUserState = !this.mapService.centerMapByUserState;
+    this.mapService.followUserEmitter.emit(this.mapService.centerMapByUserState);
   }
 
 

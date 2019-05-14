@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FilterService} from '../shared/services/filter.service';
 import {IonRange} from '@ionic/angular';
 import {Filters} from '../shared/constants';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-advanced-search',
@@ -13,7 +14,10 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
   @ViewChild('decibelMeanValueRange') decibelMeanValueInput: IonRange;
   @ViewChild('latestDecibelRange') latestDecibelInput: IonRange;
 
-  constructor(public filterService: FilterService) {
+  openFilterState = false;
+
+  constructor(public filterService: FilterService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -29,11 +33,12 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
 
   onSubmit() {
     this.filterService.applyFilters();
+    this.router.navigate(['/']);
   }
 
   onFormChange() {
     setTimeout(() => {
-      this.setFilterByDecibel();
+      this.setFilterByLatestDecibel();
       this.setFilterByDistance();
       this.setFilterByTodayMeanValue();
       this.filterService.updateTempFiltration(this.filterService.form);
@@ -52,7 +57,7 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
     this.clearForm();
   }
 
-  setFilterByDecibel() {
+  setFilterByLatestDecibel() {
     const minValue = this.filterService.form.get('latestDecibel').value.lower;
     const maxValue = this.filterService.form.get('latestDecibel').value.upper;
 
@@ -106,9 +111,5 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
         this.filterService.activeFilters.push(Filters.TODAY_DECIBEL_MEAN_VALUE);
       }
     }
-
-
-
+  }
 }
-}
-

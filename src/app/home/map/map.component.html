@@ -1,3 +1,5 @@
+<app-top-bar [setUserLocation]="mapService.userLocation"></app-top-bar>
+
 <div class="direction-container">
   <ul *ngIf="!!directionOrigin && !!directionDestination">
     <li *ngFor="let mode of directionsOptions.travelModes"
@@ -14,7 +16,11 @@
   </ul>
 </div>
 
-<app-search [sensors]="sensors" *ngIf="sensors.length > 0"></app-search>
+<div class="follow-user-icon"
+     [ngClass]="{'user-active': mapService.centerMapByUserState}">
+  <i (click)="onToggleFollowUser()"
+     class="fas fa-crosshairs"></i>
+</div>
 
 <agm-map #map
          (mapClick)="onMapClick($event)"
@@ -34,7 +40,7 @@
               *ngFor="let sensor of sensors"
               [latitude]="sensor.coords.lat"
               [longitude]="sensor.coords.lng"
-              [iconUrl]="markerIconOptions">
+              [iconUrl]="sensor.readings[0].value < 65 ? sensor.readings[0].value < 50 ? markerIconLow : markerIconMiddle : markerIconHigh">
 
   </agm-marker>
   <agm-marker (markerClick)="onUserMarkerClick()"
