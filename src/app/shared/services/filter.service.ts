@@ -39,6 +39,7 @@ export class FilterService {
 
   reset() {
     this.activeFilters = [];
+    this.tempFiltration = this.apiService.sensors;
     this.applyFilters();
   }
 

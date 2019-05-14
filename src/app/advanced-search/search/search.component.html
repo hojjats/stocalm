@@ -1,0 +1,18 @@
+<div class="search-input"
+     [ngClass]="{'disabled': disabled}">
+  <i class=" fas fa-search"></i>
+<input #input
+       (input)="search(input.value)"
+       type="text"
+       [disabled]="disabled"
+       [ngClass]="{'disabled': disabled}">
+</div>
+<div class="search-result"
+     [ngClass]="{'search-result-open': searchResult.length > 0}">
+  <ul>
+    <li *ngFor="let sensor of searchResult"
+        (click)="onSearchResultClick(sensor)">
+      {{sensor.coords.location.name}}
+    </li>
+  </ul>
+</div>
