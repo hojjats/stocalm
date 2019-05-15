@@ -25,6 +25,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { ShareButtonsModule } from '@ngx-share/buttons';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
