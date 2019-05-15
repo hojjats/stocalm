@@ -28,6 +28,8 @@
 
   .button-group, .decibel-container {
     margin-bottom: 1em;
+    display: flex;
+    align-items: center;
   }
 
   .decibel-container {

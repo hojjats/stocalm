@@ -3,7 +3,7 @@
   <app-search [setDisabled]="openFilterState"></app-search>
   <ion-item>
   <span class="filter-button"
-        (click)="openFilterState = !openFilterState"
+        (click)="onToggleFilterForm()"
         [ngClass]="{'active': openFilterState}">
     Filtrering
     <i class="fas"
@@ -49,7 +49,7 @@
 
       <div class="button-container">
         <ion-button type="submit" [disabled]="!filterService.form.valid">Filtrera</ion-button>
-        <ion-button (click)="clearFilters()">Nollställ filter</ion-button>
+        <ion-button (click)="onClearFilters()">Nollställ filter</ion-button>
       </div>
     </form>
 
