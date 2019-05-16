@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ApiService} from '../shared/services/api.service';
 import {Sensor} from '../shared/models/sensor.model';
 import {Reading} from '../shared/models/reading.model';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-settings',
@@ -12,21 +13,29 @@ export class SettingsPage implements OnInit {
     sensors: Sensor[] = [];
     openAboutUsState = false;
 
-    constructor(public apiService: ApiService) {
-    }
+  private subscriptions: Subscription[] = [];
+
+
+  constructor(public apiService: ApiService) {
+  }
 
     ngOnInit() {
         this.loadAllSensors();
     }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
     loadAllSensors() {
         this.sensors = this.apiService.sensors;
         this.filterDisabledSensors();
 
-        this.apiService.sensors$.subscribe((sensors: Sensor[]) => {
+        const subscription = this.apiService.sensors$.subscribe((sensors: Sensor[]) => {
             this.sensors = sensors;
             this.filterDisabledSensors();
         });
+        this.subscriptions.push(subscription);
     }
 
     filterDisabledSensors() {

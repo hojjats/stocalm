@@ -3,7 +3,7 @@
 
   .header {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: minmax(auto, 70%) auto;
     align-items: center;
 
     h1 {
@@ -11,6 +11,7 @@
       margin: 0;
     }
     .weather {
+      margin-left: 5px;
       justify-self: end;
       display: grid;
       grid-template-columns: min-content auto;
@@ -28,6 +29,8 @@
 
   .button-group, .decibel-container {
     margin-bottom: 1em;
+    display: flex;
+    align-items: center;
   }
 
   .decibel-container {
@@ -55,6 +58,7 @@
   }
 
 }
+
 .shareButtons {
   padding-left: 5%;
 }
@@ -94,16 +98,16 @@
   margin-bottom: 5px;
 }
 
-.fa-check{
+.fa-check {
   color: forestgreen;
 }
 
-.fa-times{
+.fa-times {
   color: darkred;
 }
 
 @media only screen and (min-width: 600px) {
-  .container{
+  .container {
     .image-container {
       img {
         max-width: 300px;

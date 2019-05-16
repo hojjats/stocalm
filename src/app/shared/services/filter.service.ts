@@ -45,7 +45,7 @@ export class FilterService {
 
   filterByLatestDecibelValue(minDecibel: number, maxDecibel: number) {
     this.tempFiltration = this.tempFiltration.filter(sensor => {
-      const lastValue = sensor.readings[sensor.readings.length - 1].value;
+      const lastValue = sensor.readings[0].value;
       return lastValue >= minDecibel && lastValue <= maxDecibel;
     });
   }

@@ -2,7 +2,8 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FilterService} from '../shared/services/filter.service';
 import {IonRange} from '@ionic/angular';
 import {Filters} from '../shared/constants';
-import {Router} from '@angular/router';
+import {NavigationStart, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-advanced-search',
@@ -14,19 +15,41 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
   @ViewChild('decibelMeanValueRange') decibelMeanValueInput: IonRange;
   @ViewChild('latestDecibelRange') latestDecibelInput: IonRange;
 
-  openFilterState = false;
+  openFilterState = this.filterService.activeFilters.length > 0;
+
+  subscriptions: Subscription[] = [];
+
 
   constructor(public filterService: FilterService,
               private router: Router) {
   }
 
   ngOnInit() {
+    // Subscribe to switching page
+    const subscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.setToInitState();
+      }
+    });
+    this.subscriptions.push(subscription);
   }
 
   ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  setToInitState() {
+    this.openFilterState = this.filterService.activeFilters.length > 0;
     if (this.filterService.tempFiltration === this.filterService.filteredSensors) {
       this.filterService.tempFiltration = this.filterService.filteredSensors;
     } else {
+      this.clearFilters();
+    }
+  }
+
+  onToggleFilterForm() {
+    this.openFilterState = !this.openFilterState;
+    if (!this.openFilterState) {
       this.clearFilters();
     }
   }
@@ -55,6 +78,11 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
   clearFilters() {
     this.filterService.reset();
     this.clearForm();
+  }
+
+  onClearFilters() {
+    this.clearFilters();
+    this.router.navigate(['/']);
   }
 
   setFilterByLatestDecibel() {

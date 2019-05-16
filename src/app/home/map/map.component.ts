@@ -12,6 +12,7 @@ import {Translations} from '../../shared/translations';
 import {ToasterService} from '../../shared/services/toaster.service';
 import {ControlPosition, MapTypeControlStyle} from '@agm/core/services/google-maps-types';
 import {FilterService} from '../../shared/services/filter.service';
+import {NavigationStart, Router} from '@angular/router';
 
 
 @Component({
@@ -84,14 +85,14 @@ export class MapComponent implements OnInit, OnDestroy {
 
   // Subscriptions
   private subscriptions: Subscription[] = [];
-  getUserLocationinterval: any;
 
   constructor(public fillterServie: FilterService,
               public mapService: MapService,
               public dialog: MatDialog,
               private geolocation: Geolocation,
               private navigationService: NavigationService,
-              private toasterService: ToasterService) {
+              private toasterService: ToasterService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -102,14 +103,18 @@ export class MapComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    if (this.getUserLocationinterval) {
-      clearInterval(this.getUserLocationinterval);
-    }
+  }
+
+  setToInitState() {
+    this.toasterService.setDefaultValues();
+    this.setDestinationOriginState = false;
+    this.directionOrigin = undefined;
+    this.directionDestination = undefined;
   }
 
   private setSubscriptions() {
     // Subscribe to map center change
-    let subscription = this.mapService.flyToEmitter.subscribe(value => {
+    const subscription1 = this.mapService.flyToEmitter.subscribe(value => {
       this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
       this.zoom = this.mapRef.zoom;
       setTimeout(() => {
@@ -117,37 +122,47 @@ export class MapComponent implements OnInit, OnDestroy {
         this.zoom = 18;
       }, 50);
     });
-    this.subscriptions.push(subscription);
+    this.subscriptions.push(subscription1);
 
     // Subscripbe to open sensor card
-    subscription = this.mapService.openSensorCardEmitter.subscribe((sensor: Sensor) => {
+    const subscription2 = this.mapService.openSensorCardEmitter.subscribe((sensor: Sensor) => {
       this.openMarkerDialog(sensor);
     });
-    this.subscriptions.push(subscription);
+    this.subscriptions.push(subscription2);
 
     // Subscribe to directions initiation
-    subscription = this.mapService.initiateDirections.subscribe((destinationSensor: Sensor) => {
+    const subscription3 = this.mapService.initiateDirections.subscribe((destinationSensor: Sensor) => {
       this.setDirections(destinationSensor);
     });
-    this.subscriptions.push(subscription);
+    this.subscriptions.push(subscription3);
 
     // Subscribe to if center should follow user
-    subscription = this.mapService.followUserEmitter.subscribe(value => {
+    const subscription4 = this.mapService.followUserEmitter.subscribe(value => {
       if (value) {
         this.setFollowUser();
       } else {
         this.mapService.centerMapByUserState = false;
       }
     });
-    this.subscriptions.push(subscription);
+    this.subscriptions.push(subscription4);
+
+    // Subscribe to switching page
+    const subscription5 = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart && event.url !== '/') {
+        this.setToInitState();
+      }
+    });
+    this.subscriptions.push(subscription5);
+
 
   }
 
   private getSensors() {
     this.sensors = this.fillterServie.filteredSensors;
-    this.fillterServie.filteredSensors$.subscribe((sensors: Sensor[]) => {
+    const subscription = this.fillterServie.filteredSensors$.subscribe((sensors: Sensor[]) => {
       this.sensors = sensors;
     });
+    this.subscriptions.push(subscription);
   }
 
   setDirections(destinationSensor: Sensor) {
