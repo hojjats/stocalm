@@ -10,6 +10,7 @@ import {Reading} from '../shared/models/reading.model';
 })
 export class SettingsPage implements OnInit {
     sensors: Sensor[] = [];
+    openAboutUsState = false;
 
     constructor(public apiService: ApiService) {
     }
@@ -19,6 +20,9 @@ export class SettingsPage implements OnInit {
     }
 
     loadAllSensors() {
+        this.sensors = this.apiService.sensors;
+        this.filterDisabledSensors();
+
         this.apiService.sensors$.subscribe((sensors: Sensor[]) => {
             this.sensors = sensors;
             this.filterDisabledSensors();

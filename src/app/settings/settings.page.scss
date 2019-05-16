@@ -11,9 +11,14 @@ ion-card-content {
 }
 
 i {
+  position: relative;
   color: gray;
+  //TODO: kolla om detta under här
+  padding-right: 1rem;
 }
-
+ion-list-header{
+  position: relative;
+}
 ion-icon {
   color: #42f0b6;
 }
