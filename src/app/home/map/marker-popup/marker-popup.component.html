@@ -16,8 +16,8 @@
   </div>
 
   <div class="button-group">
-    <ion-button size="small" color="primary">Om Parken</ion-button>
     <ion-button (click)="onShowDirection()" size="small" color="primary">Hitta hit</ion-button>
+
     <span class="shareButtons">
         <share-buttons [theme]="'default'"
                        [include]="['facebook','twitter']"
@@ -31,6 +31,21 @@
         ></share-buttons>
   </span>
   </div>
+
+  <span (click)="aboutPark = !aboutPark"  size="small" color="primary">Om parken<i class="fas"
+    [ngClass]="aboutPark? 'fa-caret-up' : 'fa-caret-down'"></i></span>
+  <div *ngIf="aboutPark">
+      <ion-card>
+          <ion-card-header>
+              <ion-card-subtitle>Om parken</ion-card-subtitle>
+            <ion-card-title>{{sensor.coords.location.name}}</ion-card-title>
+          </ion-card-header>
+  
+          <ion-card-content>
+           {{sensor.coords.location.description}}
+          </ion-card-content>
+      </ion-card>
+      </div> 
 
   <div class="decibel-container">
     <h3>Aktuell ljudnivå:</h3>
