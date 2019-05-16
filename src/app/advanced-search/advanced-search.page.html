@@ -14,20 +14,22 @@
   <div *ngIf="openFilterState" class="filter-container">
 
     <form class="form" [formGroup]="filterService.form" (ngSubmit)="onSubmit()">
+
+      <label for="latestDecibelRange" >Senaste decibellvärde</label>
       <ion-item>
-        <label for="latestDecibel">Senaste decibellvärde</label>
-        <ion-range #latestDecibelRange id="latestDecibel"
+        <ion-range #latestDecibelRange id="latestDecibelRange"
                    formControlName="latestDecibel"
                    min="0"
                    max="100"
                    dualKnobs="true"
+                   width="100%"
                    (ionChange)="onFormChange()">
           <ion-label slot="start">{{latestDecibelRange.value.lower}}</ion-label>
           <ion-label slot="end">{{latestDecibelRange.value.upper}}</ion-label>
         </ion-range>
       </ion-item>
+      <label for="decibelMeanValue">Decibel-medelvärde för idag</label>
       <ion-item>
-        <label for="decibelMeanValue">Decibel-medelvärde för idag</label>
         <ion-range #decibelMeanValueRange id="decibelMeanValue"
                    formControlName="decibelMeanValue"
                    min="0"
@@ -38,8 +40,8 @@
           <ion-label slot="end">{{decibelMeanValueRange.value.upper}}</ion-label>
         </ion-range>
       </ion-item>
+      <label for="distance">Max avstånd (km)</label>
       <ion-item>
-        <ion-label for="distance">Max avstånd (km)</ion-label>
         <ion-input #input
                    id="distance"
                    formControlName="distance"

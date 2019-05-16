@@ -1,12 +1,10 @@
 .hour-chart {
   .header{
     h3{
-      display: inline-block;
-      margin-right: 10px;
+      display: block;
     }
     .day {
-      text-align: center;
-      display: inline-block;
+      display: block;
       h3 {
         display: inline-block;
         margin: 0 1em;
@@ -53,6 +51,17 @@
 @media only screen and (min-width: 600px) {
 
   .hour-chart{
+
+    .header{
+      h3{
+        display: inline-block;
+        margin-right: 10px;
+      }
+      .day {
+        text-align: center;
+        display: inline-block;
+      }
+    }
 
     .chart-container{
       max-height: inherit;

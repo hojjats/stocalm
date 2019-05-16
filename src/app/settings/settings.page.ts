@@ -24,7 +24,6 @@ export class SettingsPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    console.log('Destroy settings');
   }
 
   loadAllSensors() {
