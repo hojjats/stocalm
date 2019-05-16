@@ -104,7 +104,6 @@ export class ChartComponent implements OnInit {
     const colors = [];
     for (let i = 0; i < this.hourChartData[0].data.length; i++) {
       const data = this.hourChartData[0].data[i];
-      console.log(data)
       if (data > 65) {
         colors.push('#f44242');
       } else if (data >= 50) {

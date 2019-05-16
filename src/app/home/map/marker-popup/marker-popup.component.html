@@ -15,15 +15,16 @@
     <img #img [src]="sensor.coords.location.imgUrl" (click)="togglePopupImg(img.src)">
   </div>
 
+  
   <div class="button-group">
+      <ion-button (click)="aboutPark = !aboutPark"  size="small" color="primary">Om parken</ion-button> 
     <ion-button (click)="onShowDirection()" size="small" color="primary">Hitta hit</ion-button>
-
     <span class="shareButtons">
         <share-buttons [theme]="'default'"
                        [include]="['facebook','twitter']"
                        [show]="2"
                        [showText]="false"
-                       [size]="-4"
+                       [size]="-7"
                        description="{{'Sitter i ' + sensor.coords.location.name + '! Det är ' + sensor.readings[0].value +
         'db just nu. Använd appen själv här:'}}"
                        [url]="'https://pvt.dsv.su.se/Group03'"
@@ -31,16 +32,12 @@
         ></share-buttons>
   </span>
   </div>
-
-  <span (click)="aboutPark = !aboutPark"  size="small" color="primary">Om parken<i class="fas"
-    [ngClass]="aboutPark? 'fa-caret-up' : 'fa-caret-down'"></i></span>
   <div *ngIf="aboutPark">
       <ion-card>
           <ion-card-header>
               <ion-card-subtitle>Om parken</ion-card-subtitle>
-            <ion-card-title>{{sensor.coords.location.name}}</ion-card-title>
+            <ion-card-title>{{sensor.coords.location.name}}</ion-card-title>  
           </ion-card-header>
-  
           <ion-card-content>
            {{sensor.coords.location.description}}
           </ion-card-content>
