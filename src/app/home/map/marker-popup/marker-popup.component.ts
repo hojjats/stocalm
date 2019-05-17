@@ -14,7 +14,7 @@ import {Constants} from '../../../shared/constants';
   styleUrls: ['./marker-popup.component.scss'],
 })
 export class MarkerPopupComponent implements OnInit, OnDestroy {
-  aboutPark: false;
+  aboutPark = false;
   sensor: Sensor;
 
   popupOpen = false;

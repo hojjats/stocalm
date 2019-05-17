@@ -31,11 +31,11 @@ export class MapComponent implements OnInit, OnDestroy {
   sensors: Sensor[] = [];
 
   // Map Options
-  centerMapLocation: any = {lat: 59.313884, lng: 18.035978};
+  centerMapLocation: any = {lat: 59.407239, lng: 17.945496};
   zoom = 13;
 
   markerIconLow = {
-    url: '/assets/icon/volume_low.png',
+    url: 'assets/icon/volume_low.png',
     scaledSize: {
       width: 50,
       height: 50
@@ -43,7 +43,7 @@ export class MapComponent implements OnInit, OnDestroy {
   };
 
   markerIconMiddle = {
-    url: '/assets/icon/volume_middle.png',
+    url: 'assets/icon/volume_middle.png',
     scaledSize: {
       width: 50,
       height: 50
@@ -51,7 +51,7 @@ export class MapComponent implements OnInit, OnDestroy {
   };
 
   markerIconHigh = {
-    url: '/assets/icon/volume_high.png',
+    url: 'assets/icon/volume_high.png',
     scaledSize: {
       width: 50,
       height: 50
@@ -59,7 +59,7 @@ export class MapComponent implements OnInit, OnDestroy {
   };
 
   userIconOptions = {
-    url: '/assets/icon/user.png',
+    url: 'assets/icon/user.png',
     scaledSize: {
       width: 50,
       height: 50
