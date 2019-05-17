@@ -82,11 +82,14 @@ export class ChartComponent implements OnInit {
   }
 
   onChangeDay(number) {
-    const newDay = this.day + number;
-    if (newDay >= 0 && newDay < 7) {
-      this.day = newDay;
-      this.setHourChart(this.day);
+    let newDay = this.day + number;
+    if (newDay > 6) {
+      newDay = 0;
+    } else if (newDay < 0) {
+      newDay = 6;
     }
+    this.day = newDay;
+    this.setHourChart(this.day);
   }
 
   setWeekdayChart() {
