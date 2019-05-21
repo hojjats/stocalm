@@ -60,8 +60,14 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   onSearchResultClick(sensor: Sensor) {
     this.router.navigate(['/']).finally(() => {
-      this.mapService.flyToEmitter.emit({lat: sensor.coords.lat, lng: sensor.coords.lng});
-      this.mapService.openSensorCardEmitter.emit(sensor);
+      let delay = 0;
+      if (this.mapService.flyToEmitter.observers.length <= 0) {
+        delay = 250;
+      }
+      setTimeout(() => {
+        this.mapService.flyToEmitter.emit({lat: sensor.coords.lat, lng: sensor.coords.lng});
+        this.mapService.openSensorCardEmitter.emit(sensor);
+      }, delay);
     });
   }
 
