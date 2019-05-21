@@ -79,6 +79,7 @@ export class MapComponent implements OnInit, OnDestroy {
     selectedMode: Translations.travelModes[0].mode,
     travelModes: Translations.travelModes
   };
+  directionSettingsOpen = true;
 
   // States
   setDestinationOriginState = false;
@@ -236,15 +237,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   onChangeDirectionMode(mode: any) {
-    // If user clicks on selected mode, close directions
-    if (this.directionsOptions.selectedMode === mode.mode) {
-      this.directionOrigin = undefined;
-      this.directionDestination = undefined;
-      this.directionsOptions.selectedMode = this.directionsOptions.travelModes[0].mode;
-      // Else set new mode
-    } else {
-      this.directionsOptions.selectedMode = mode.mode;
-    }
+    this.directionsOptions.selectedMode = mode.mode;
   }
 
   setDestinationOrigin() {
@@ -256,6 +249,28 @@ export class MapComponent implements OnInit, OnDestroy {
   onToggleFollowUser() {
     this.mapService.centerMapByUserState = !this.mapService.centerMapByUserState;
     this.mapService.followUserEmitter.emit(this.mapService.centerMapByUserState);
+  }
+
+  redirectNavigationInGoogle() {
+    const url = 'https://www.google.com/maps/dir/?api=1&origin=' +
+      this.directionOrigin.lat +
+      ',' +
+      this.directionOrigin.lng +
+      '&destination=' +
+      this.directionDestination.lat +
+      ',' +
+      this.directionDestination.lng +
+      '&travelmode=' +
+      this.directionsOptions.selectedMode.toLowerCase();
+    window.open(url, '_blank');
+
+  }
+
+  cancelNavigation() {
+    this.directionOrigin = undefined;
+    this.directionDestination = undefined;
+    this.directionsOptions.selectedMode = this.directionsOptions.travelModes[0].mode;
+
   }
 
 

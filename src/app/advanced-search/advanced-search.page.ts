@@ -19,6 +19,10 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
+  rangeTempValue: any;
+
+  loadingState = false;
+
 
   constructor(public filterService: FilterService,
               private router: Router) {
@@ -60,11 +64,15 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
   }
 
   onFormChange() {
+    this.loadingState = true;
     setTimeout(() => {
       this.setFilterByLatestDecibel();
       this.setFilterByDistance();
       this.setFilterByTodayMeanValue();
       this.filterService.updateTempFiltration(this.filterService.form);
+      setTimeout(() => {
+        this.loadingState = false;
+      }, 200);
     }, 50);
   }
 
@@ -139,5 +147,19 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
         this.filterService.activeFilters.push(Filters.TODAY_DECIBEL_MEAN_VALUE);
       }
     }
+  }
+
+  onRangeChange(event: CustomEvent) {
+    this.loadingState = true;
+    this.rangeTempValue = event.detail.value;
+    setTimeout(() => {
+      if (!!this.rangeTempValue &&
+        event.detail.value.lower === this.rangeTempValue.lower &&
+        event.detail.value.upper === this.rangeTempValue.upper) {
+        this.rangeTempValue = undefined;
+        this.onFormChange();
+      }
+    }, 350);
+
   }
 }

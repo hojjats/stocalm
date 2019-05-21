@@ -1,6 +1,5 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Sensor} from '../models/sensor.model';
-import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +18,16 @@ export class MapService {
   centerMapByUserState = false;
 
   constructor() {
-    // Get user position by interval
-    setInterval(() => {
-      this.getUserLocation();
-    }, 1000);
+    this.trackUser();
   }
 
+  /**
+   * Get user position one time.
+   *
+   * @deprecated As of version 2, because of multiple alert from web browser when used in a interval.
+   * Use @link #trackUser() instead.
+   *
+   */
   getUserLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -47,8 +50,11 @@ export class MapService {
   trackUser() {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(position => {
-        console.log('Got user position: ', position);
-        this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        console.log('Got user position: ', position.coords.longitude, position.coords.latitude);
+        if (!this.userLocation ||
+          (position.coords.longitude !== this.userLocation.lng || position.coords.latitude !== this.userLocation.lat)) {
+          this.userLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+        }
         if (this.centerMapByUserState) {
           this.flyToEmitter.emit({lat: position.coords.latitude, lng: position.coords.longitude});
         }
