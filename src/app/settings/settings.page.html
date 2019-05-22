@@ -1,82 +1,14 @@
-<!--
-<ion-header>
-    <ion-toolbar>
-        <ion-title>issues & us</ion-title>
-        <ion-buttons slot="end">
-            <ion-icon name="mail" slot="icon-only"></ion-icon>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
-
-<ion-content>
-    <ion-card>
-        <ion-item>
-            <i class="fas fa-exclamation-triangle" slot="end"></i>
-            <ion-card-subtitle>Issues</ion-card-subtitle>
-
-        </ion-item>
-        <ion-card-header><h1>Current disruptions</h1></ion-card-header>
-        <ion-list>
-            <ion-item *ngFor="let sensor of sensors">
-                <ion-label>{{ sensor.coords.location.name}}</ion-label>
-            </ion-item>
-        </ion-list>
-    </ion-card>
-    <div class="last-card">
-        <ion-card>
-            <ion-item>
-                <i class="fas fa-info-circle" slot="end"></i>
-                <ion-card-subtitle>About us</ion-card-subtitle>
-            </ion-item>
-
-            <ion-card-header><h1>Stocalm</h1></ion-card-header>
-
-            <ion-card-content>
-                <ion-card-subtitle>Putting calm to your everyday big city living</ion-card-subtitle>
-                Stocalm started up in 2019, and we've since the beginning been on a truly speechless ride. What was from
-                the
-                beginning our idea to solve the issues we saw with living in a big city such as ours truly loved
-                Stockholm,
-                has now exploded and evolved to the very application you are using as you read this.<br><br> We wanted
-                to
-                create something useful, meaningful and above all something helpful for our fellow co-citizens. We owe a
-                huge thanks to the contributors and supporters of this project, we wouldn't be us nor here without
-                you.<br><br> Let's continue the ride together and make Stockholm better for all.
-            </ion-card-content>
-        </ion-card>
-    </div>
-
-
-</ion-content>
--->
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-back-button defaultHref="" text="" color="secondary"></ion-back-button>
         </ion-buttons>
-        <ion-title>Information</ion-title>
+        <ion-title color="tertiary"><h3>Information</h3></ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-list inset="true">
-        <ion-list-header>
-            <ion-label><i class="fas fa-exclamation-triangle"></i>Störningar</ion-label>
-        </ion-list-header>
-
-        <ion-item *ngFor="let sensor of sensors">
-            <div>
-                <ion-label>{{ sensor.coords.location.name}}</ion-label>
-                <ion-note>Senast uppdaterad: {{sensor.readings[0].date}}
-                    , {{sensor.readings[0].time.substring(0, 5)}}</ion-note>
-            </div>
-        </ion-item>
-    </ion-list>
-
-    <ion-list inset="true">
-        <ion-list-header>
-            <ion-label><i class="fas fa-info-circle"></i>Ljudnivåer</ion-label>
-        </ion-list-header>
         <ion-item>
             <ion-thumbnail slot="start">
                 <ion-img [src]="'/assets/icon/volume_high.png'"></ion-img>
@@ -99,34 +31,60 @@
             <ion-note>0-50 DB</ion-note>
         </ion-item>
     </ion-list>
+    <div class="Segmentation">
+        <ion-segment [(ngModel)]="activeState" color="secondary">
+            <ion-segment-button value="issues">
+                <ion-label>Störningar</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="about">
+                <ion-label>Om oss</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="contact">
+                <ion-label>Kontakta oss</ion-label>
+            </ion-segment-button>
+        </ion-segment>
 
-    <ion-item>
-        <span class="about-us-button" (click)="openAboutUsState = !openAboutUsState"
-              [ngClass]="{'active': openAboutUsState}">
-            Om oss
-            <i class="fas"
-               [ngClass]="openAboutUsState? 'fa-caret-up' : 'fa-caret-down'"></i>
-        </span>
-    </ion-item>
-    <div class="last-card">
-        <ion-card *ngIf="openAboutUsState">
-            <ion-item>
-                <i class="fas fa-info-circle" slot="end"></i>
-                <ion-card-subtitle>About us</ion-card-subtitle>
-            </ion-item>
-            <ion-card-header><h1>Stocalm</h1></ion-card-header>
-            <ion-card-content>
-                <ion-card-subtitle>Putting calm to your everyday big city living</ion-card-subtitle>
-                Stocalm started up in 2019, and we've since the beginning been on a truly speechless ride. What was from
-                the
-                beginning our idea to solve the issues we saw with living in a big city such as ours truly loved
-                Stockholm,
-                has now exploded and evolved to the very application you are using as you read this.<br><br> We wanted
-                to
-                create something useful, meaningful and above all something helpful for our fellow co-citizens. We owe a
-                huge thanks to the contributors and supporters of this project, we wouldn't be us nor here without
-                you.<br><br> Let's continue the ride together and make Stockholm better for all.
-            </ion-card-content>
-        </ion-card>
+        <div class="issues-text-container" [ngSwitch]="activeState">
+            <ion-list inset="true" *ngSwitchCase="'issues'">
+                <h1>Nuvarande störningar</h1>
+                <h5 *ngIf="sensors.length === 0">Inga störningar</h5>
+                <ion-item *ngFor="let sensor of sensors">
+                    <i class="fas fa-exclamation-triangle" slot="start"></i>
+                    <div>
+                        <ion-label>{{ sensor.coords.location.name}}</ion-label>
+                        <ion-note>Senast uppdaterad: {{sensor.readings[0].date}}
+                             {{sensor.readings[0].time.substring(0, 5)}}</ion-note>
+                    </div>
+                </ion-item>
+            </ion-list>
+
+            <div class="about-text-container" *ngSwitchCase="'about'">
+                <h1>Stocalm</h1>
+                <h5>Putting calm to your everyday big city living 🍃</h5>
+                    Stocalm started up in 2019, and we've since the beginning been on a truly speechless ride. What was
+                    from
+                    the
+                    beginning our idea to solve the issues we saw with living in a big city such as ours truly loved
+                    Stockholm,
+                    has now exploded and evolved to the very application you are using as you read this 🚀<br><br> We
+                    wanted
+                    to
+                    create something useful, meaningful and above all something helpful for our fellow co-citizens. We
+                    owe a
+                    huge thanks to the contributors and supporters of this project, we wouldn't be us nor here without
+                    you  🙌❤️
+
+            </div>
+            <div *ngSwitchCase="'contact'">
+                <div class="contact-text-container">
+                    <h1>Kul att du vill höra av dig!</h1>
+                    Bästa sättet att kontakta oss är genom att skicka över ett mail,
+                    vi lovar och svär att vi svarar så fort vi bara kan!
+                    <br><br>
+                    Vår mailadress är👇<br> <span class="email">PVTGrupp3@Gmail.com</span>
+                </div>
+            </div>
+
+        </div>
     </div>
 </ion-content>

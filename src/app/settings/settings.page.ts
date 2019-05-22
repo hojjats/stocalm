@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ApiService} from '../shared/services/api.service';
 import {Sensor} from '../shared/models/sensor.model';
-import {Reading} from '../shared/models/reading.model';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -11,7 +10,7 @@ import {Subscription} from 'rxjs';
 })
 export class SettingsPage implements OnInit {
     sensors: Sensor[] = [];
-    openAboutUsState = false;
+    activeState: any;
 
   private subscriptions: Subscription[] = [];
 
@@ -21,6 +20,7 @@ export class SettingsPage implements OnInit {
 
     ngOnInit() {
         this.loadAllSensors();
+        this.activeState = 'issues';
     }
 
   ngOnDestroy() {
