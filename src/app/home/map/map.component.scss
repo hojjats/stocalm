@@ -4,22 +4,41 @@ agm-map{
 
 .direction-container{
   position: absolute;
-  top: 7vh;;
+  top: 10vh;;
   right: 0;
   z-index: 1;
   margin: 0.5em;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
 
-  ul{
-    li{
-      border-bottom: 1px solid #eeeeee;
-      padding: 8px 17px;
-      cursor: pointer;
-    }
+  .fa-cog{
+    width: 100%;
+    text-align: right;
+  }
+
+  li{
+    border-bottom: 1px solid #eeeeee;
+    padding: 8px 17px;
+    cursor: pointer;
+    min-width: 50px;
+  }
+
+  .settings{
+    transition: max-height 1s ease, max-width 1s ease 0.5s;
+    max-height: 0px;
+    max-width: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+
     .active{
       background-color: #eee;
     }
+  }
+
+  .open{
+    transition: max-height 1s ease 0.5s, max-width 1s ease;
+    max-height: 500px;
+    max-width: 500px;
   }
 }
 

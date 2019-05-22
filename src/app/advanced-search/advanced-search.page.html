@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content class="container">
 
   <app-search [setDisabled]="openFilterState"></app-search>
   <ion-item>
@@ -23,7 +23,7 @@
                    max="100"
                    dualKnobs="true"
                    width="100%"
-                   (ionChange)="onFormChange()">
+                   (ionChange)="onRangeChange($event)">
           <ion-label slot="start">{{latestDecibelRange.value.lower}}</ion-label>
           <ion-label slot="end">{{latestDecibelRange.value.upper}}</ion-label>
         </ion-range>
@@ -35,7 +35,7 @@
                    min="0"
                    max="100"
                    dualKnobs="true"
-                   (ionChange)="onFormChange()">
+                   (ionChange)="onRangeChange($event)">
           <ion-label slot="start">{{decibelMeanValueRange.value.lower}}</ion-label>
           <ion-label slot="end">{{decibelMeanValueRange.value.upper}}</ion-label>
         </ion-range>
@@ -56,7 +56,8 @@
     </form>
 
     <div class="result-container">
-      <span class="result">{{filterService.tempFiltration.length}}</span>
+      <span *ngIf="!loadingState" class="result">{{filterService.tempFiltration.length}}</span>
+      <span *ngIf="loadingState" ><i class="fas fa-spinner"></i></span>
       <span class="result-text">Antal resultat</span>
     </div>
   </div>

@@ -31,11 +31,11 @@ export class MapComponent implements OnInit, OnDestroy {
   sensors: Sensor[] = [];
 
   // Map Options
-  centerMapLocation: any = {lat: 59.313884, lng: 18.035978};
+  centerMapLocation: any = {lat: 59.407239, lng: 17.945496};
   zoom = 13;
 
   markerIconLow = {
-    url: '/assets/icon/volume_low.png',
+    url: 'assets/icon/volume_low.png',
     scaledSize: {
       width: 50,
       height: 50
@@ -43,7 +43,7 @@ export class MapComponent implements OnInit, OnDestroy {
   };
 
   markerIconMiddle = {
-    url: '/assets/icon/volume_middle.png',
+    url: 'assets/icon/volume_middle.png',
     scaledSize: {
       width: 50,
       height: 50
@@ -51,7 +51,7 @@ export class MapComponent implements OnInit, OnDestroy {
   };
 
   markerIconHigh = {
-    url: '/assets/icon/volume_high.png',
+    url: 'assets/icon/volume_high.png',
     scaledSize: {
       width: 50,
       height: 50
@@ -59,7 +59,7 @@ export class MapComponent implements OnInit, OnDestroy {
   };
 
   userIconOptions = {
-    url: '/assets/icon/user.png',
+    url: 'assets/icon/user.png',
     scaledSize: {
       width: 50,
       height: 50
@@ -79,6 +79,7 @@ export class MapComponent implements OnInit, OnDestroy {
     selectedMode: Translations.travelModes[0].mode,
     travelModes: Translations.travelModes
   };
+  directionSettingsOpen = true;
 
   // States
   setDestinationOriginState = false;
@@ -236,15 +237,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   onChangeDirectionMode(mode: any) {
-    // If user clicks on selected mode, close directions
-    if (this.directionsOptions.selectedMode === mode.mode) {
-      this.directionOrigin = undefined;
-      this.directionDestination = undefined;
-      this.directionsOptions.selectedMode = this.directionsOptions.travelModes[0].mode;
-      // Else set new mode
-    } else {
-      this.directionsOptions.selectedMode = mode.mode;
-    }
+    this.directionsOptions.selectedMode = mode.mode;
   }
 
   setDestinationOrigin() {
@@ -256,6 +249,28 @@ export class MapComponent implements OnInit, OnDestroy {
   onToggleFollowUser() {
     this.mapService.centerMapByUserState = !this.mapService.centerMapByUserState;
     this.mapService.followUserEmitter.emit(this.mapService.centerMapByUserState);
+  }
+
+  redirectNavigationInGoogle() {
+    const url = 'https://www.google.com/maps/dir/?api=1&origin=' +
+      this.directionOrigin.lat +
+      ',' +
+      this.directionOrigin.lng +
+      '&destination=' +
+      this.directionDestination.lat +
+      ',' +
+      this.directionDestination.lng +
+      '&travelmode=' +
+      this.directionsOptions.selectedMode.toLowerCase();
+    window.open(url, '_blank');
+
+  }
+
+  cancelNavigation() {
+    this.directionOrigin = undefined;
+    this.directionDestination = undefined;
+    this.directionsOptions.selectedMode = this.directionsOptions.travelModes[0].mode;
+
   }
 
 

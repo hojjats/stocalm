@@ -11,8 +11,9 @@
     </div>
   </div>
 
-  <div class="image-container" *ngIf="sensor.coords.location.imgUrl !== '' && !!sensor.coords.location.imgUrl">
-    <img #img [src]="sensor.coords.location.imgUrl" (click)="togglePopupImg(img.src)">
+  <div (click)="togglePopupImg(img.src)" class="image-container" *ngIf="sensor.coords.location.imgUrl !== '' && !!sensor.coords.location.imgUrl">
+    <i class="fas fa-expand"></i>
+    <img #img [src]="sensor.coords.location.imgUrl" >
   </div>
 
   
@@ -25,7 +26,7 @@
                        [show]="2"
                        [showText]="false"
                        [size]="-7"
-                       description="{{'Sitter i ' + sensor.coords.location.name + '! Det är ' + sensor.readings[0].value +
+                       description="{{'Sitter i ' + sensor.coords.location.name + '! Det är ' + (sensor.readings[0].value | number: '1.0-0') +
         'db just nu. Använd appen själv här:'}}"
                        [url]="'https://pvt.dsv.su.se/Group03'"
                        [autoSetMeta]="false"
@@ -46,10 +47,10 @@
 
   <div class="decibel-container">
     <h3>Aktuell ljudnivå:</h3>
-    <img *ngIf="sensor.readings[0].value > 65" [src]="'/assets/icon/volume_high.png'">
+    <img *ngIf="sensor.readings[0].value > 65" [src]="'assets/icon/volume_high.png'">
     <img *ngIf="sensor.readings[0].value < 65 && sensor.readings[0].value >= 50"
-         [src]="'/assets/icon/volume_middle.png'">
-    <img *ngIf="sensor.readings[0].value < 50" [src]="'/assets/icon/volume_low.png'">
+         [src]="'assets/icon/volume_middle.png'">
+    <img *ngIf="sensor.readings[0].value < 50" [src]="'assets/icon/volume_low.png'">
   </div>
 
 
