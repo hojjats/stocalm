@@ -203,9 +203,8 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   onMarkerClick(event) {
-    this.openMarkerDialog(
-      this.getSensorFromList(event.latitude, event.longitude)
-    );
+    this.router.navigateByUrl(`/location-view/${event.latitude}/${event.longitude}`);
+    // console.log(this.router.navigateByUrl(`/location-view/${event.latitude}/${event.longitude}` ));
 
   }
 

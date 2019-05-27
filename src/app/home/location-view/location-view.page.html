@@ -1,0 +1,132 @@
+<!--
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="" text="" color="secondary"></ion-back-button>
+        </ion-buttons>
+        <ion-title color="tertiary"><h3>{{sensor.coords.location.name}}</h3></ion-title>
+        <span *ngIf="!!weather" slot="end" class="temperature">
+            <img [src]="weather.iconUrl">
+            <h1>{{weather.temp | number:'1.0-0'}}°</h1>
+        </span>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="image-container">
+        <img #img [src]="sensor.coords.location.imgUrl">
+    </div>
+    <div class="button-container">
+        <ion-buttons slot="end">
+            <ion-button>Om platsen</ion-button>
+            <ion-button>Hitta hit</ion-button>
+        </ion-buttons>
+    </div>
+    <div class="decibel-container">
+        <ion-label color="tertiary">Aktuell ljudnivå</ion-label>
+        <img *ngIf="sensor.readings[0].value > 65" [src]="'assets/icon/volume_high.png'">
+        <img *ngIf="sensor.readings[0].value < 65 && sensor.readings[0].value >= 50"
+             [src]="'assets/icon/volume_middle.png'">
+        <img *ngIf="sensor.readings[0].value < 50" [src]="'assets/icon/volume_low.png'">
+    </div>
+
+
+</ion-content>
+-->
+
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="" text="" color="secondary"></ion-back-button>
+        </ion-buttons>
+        <div *ngIf="openedSensor; else spinner">
+            <ion-title color="tertiary"><h3>{{openedSensor?.coords.location.name}}</h3></ion-title>
+            <span *ngIf="!!weather" class="temperature">
+            <img [src]="weather.iconUrl">
+            <h1>{{weather.temp | number:'1.0-0'}}°</h1>
+        </span>
+        </div>
+        <ng-template #spinner>
+            <ion-spinner color="secondary" name="bubbles"></ion-spinner>
+        </ng-template>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="container" *ngIf="openedSensor;">
+    <ion-grid>
+        <ion-row>
+            <div class="image-container">
+                <img #img [src]="openedSensor.coords.location.imgUrl">
+            </div>
+        </ion-row>
+        <div class="button-container">
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <ion-buttons>
+                            <ion-button color="secondary">Hitta hit</ion-button>
+                        </ion-buttons>
+                    </ion-col>
+                    <ion-col push="2">
+                        <div class="shareButtons">
+                            <share-buttons [theme]="'default'"
+                                           [include]="['facebook','twitter']"
+                                           [show]="2"
+                                           [showText]="false"
+                                           [size]="-7"
+                                           description="{{'Sitter i ' + openedSensor.coords.location.name + '! Det är ' + (openedSensor.readings[0].value | number: '1.0-0') +
+        'db just nu. Använd appen själv här:'}}"
+                                           [url]="'https://pvt.dsv.su.se/Group03'"
+                                           [autoSetMeta]="false"
+                            ></share-buttons>
+                        </div>
+                    </ion-col>
+                </ion-row>
+
+            </ion-grid>
+
+        </div>
+        <div class="decibel-container">
+
+            <ion-label color="tertiary">Aktuell ljudnivå</ion-label>
+            <img *ngIf="openedSensor.readings[0].value > 65" [src]="'assets/icon/volume_high.png'">
+            <img *ngIf="openedSensor.readings[0].value < 65 && openedSensor.readings[0].value >= 50"
+                 [src]="'assets/icon/volume_middle.png'">
+            <img *ngIf="openedSensor.readings[0].value < 50" [src]="'assets/icon/volume_low.png'">
+        </div>
+        <div class="segmentation">
+            <ion-segment [(ngModel)]="activeState" color="secondary">
+                <ion-segment-button value="chart">
+                    <ion-label>Historisk data</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="info">
+                    <ion-label>Plats-information</ion-label>
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+        <div class="segmentation-cases" [ngSwitch]="activeState">
+            <div class="chart-container" *ngSwitchCase="'chart'">
+                <!--                <app-chart [hourMeanValues]="openedSensor.hourMeanValue"></app-chart>-->
+            </div>
+            <div class="description-container" *ngSwitchCase="'info'">
+                {{openedSensor.coords.location.description}}
+            </div>
+        </div>
+
+        <div class="amenities">
+            <h3>Bekvämligheter</h3>
+            <ul>
+                <li *ngFor="let amenity of amenities">
+                    <i *ngIf="openedSensor.coords.location.amenities.includes(amenity.value)" class="fas fa-check"></i>
+                    <i *ngIf="!openedSensor.coords.location.amenities.includes(amenity.value)" class="fas fa-times"></i>
+                    {{amenity.sv}}
+                </li>
+            </ul>
+        </div>
+
+    </ion-grid>
+    </div>
+
+</ion-content>

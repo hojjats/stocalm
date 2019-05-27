@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
   { path: 'advanced-search', loadChildren: './advanced-search/advanced-search.module#AdvancedSearchPageModule' },
   { path: 'contact', loadChildren: './settings/contact/contact.module#ContactPageModule' },
+  { path: 'location-view/:lat/:lng', loadChildren: './home/location-view/location-view.module#LocationViewPageModule'}
 ];
 
 @NgModule({

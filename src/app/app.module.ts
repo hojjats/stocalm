@@ -27,35 +27,38 @@ import { ShareButtonsModule } from '@ngx-share/buttons';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavigationComponent,
-    MarkerPopupComponent,
-    ChartComponent,
-    ToasterPopupComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ChartsModule,
-    IonicModule.forRoot(),
-    HttpClientModule,
-    ShareButtonsModule
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    Geolocation,
-    ApiService,
-    FilterService,
-    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-    SocialSharing
-  ],
-  bootstrap: [AppComponent],
-  entryComponents: [MarkerPopupComponent]
+    declarations: [
+        AppComponent,
+        NavigationComponent,
+        MarkerPopupComponent,
+        ChartComponent,
+        ToasterPopupComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ChartsModule,
+        IonicModule.forRoot(),
+        HttpClientModule,
+        ShareButtonsModule
+    ],
+    providers: [
+        StatusBar,
+        SplashScreen,
+        Geolocation,
+        ApiService,
+        FilterService,
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        SocialSharing
+    ],
+    bootstrap: [AppComponent],
+    exports: [
+        ChartComponent
+    ],
+    entryComponents: [MarkerPopupComponent]
 })
 export class AppModule {
 }
