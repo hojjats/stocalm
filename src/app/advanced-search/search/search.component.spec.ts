@@ -5,7 +5,7 @@ import { SearchComponent } from './search.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
-describe('TopBarComponent', () => {
+describe('SearchComponent', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
 
