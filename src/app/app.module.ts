@@ -16,14 +16,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MarkerPopupComponent} from './home/map/marker-popup/marker-popup.component';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {ToasterPopupComponent} from './shared/toaster-popup/toaster-popup.component';
-import {ChartComponent} from './home/map/marker-popup/chart/chart.component';
+import {ChartComponent} from './home/location-view/chart/chart.component';
 import {ChartsModule} from 'ng2-charts';
 import {ApiService} from './shared/services/api.service';
 import {FilterService} from './shared/services/filter.service';
 import {ReactiveFormsModule} from '@angular/forms';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { ShareButtonsModule } from '@ngx-share/buttons';
-
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
+import {ShareButtonsModule} from '@ngx-share/buttons';
 
 
 @NgModule({
@@ -31,7 +30,6 @@ import { ShareButtonsModule } from '@ngx-share/buttons';
         AppComponent,
         NavigationComponent,
         MarkerPopupComponent,
-        ChartComponent,
         ToasterPopupComponent
     ],
     imports: [
@@ -40,7 +38,6 @@ import { ShareButtonsModule } from '@ngx-share/buttons';
         MatDialogModule,
         AppRoutingModule,
         HttpClientModule,
-        ChartsModule,
         IonicModule.forRoot(),
         HttpClientModule,
         ShareButtonsModule
@@ -55,9 +52,6 @@ import { ShareButtonsModule } from '@ngx-share/buttons';
         SocialSharing
     ],
     bootstrap: [AppComponent],
-    exports: [
-        ChartComponent
-    ],
     entryComponents: [MarkerPopupComponent]
 })
 export class AppModule {

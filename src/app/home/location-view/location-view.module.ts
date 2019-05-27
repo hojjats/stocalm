@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { LocationViewPage } from './location-view.page';
 import {ShareButtonsModule} from '@ngx-share/buttons';
+import {ChartComponent} from './chart/chart.component';
+import {ChartsModule} from 'ng2-charts';
 
 
 
@@ -25,7 +27,8 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes),
         ShareButtonsModule,
+        ChartsModule,
     ],
-  declarations: [LocationViewPage]
+  declarations: [LocationViewPage, ChartComponent]
 })
 export class LocationViewPageModule {}

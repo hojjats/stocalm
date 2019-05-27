@@ -66,6 +66,7 @@ export class LocationViewPage implements OnInit {
                 this.openedSensor = sensor;
             }
         });
+        console.log(this.openedSensor);
     }
 
     private getWeather() {

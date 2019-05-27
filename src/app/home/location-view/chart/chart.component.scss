@@ -1,23 +1,32 @@
 .hour-chart {
-  .header{
-    h3{
-      display: block;
-    }
+  .header {
+    width: 100%;
+    text-align: center;
+
     .day {
-      display: block;
+      display: inline-block;
+
       h3 {
         display: inline-block;
         margin: 0 1em;
+        padding-top: 2%;
+        color: #465D43;;
       }
-      span{
+
+      span {
         cursor: pointer;
         color: #3780ff;
+      }
+
+      i {
+        color: #16b856;
       }
     }
   }
 
-  .chart-container{
+  .chart-container {
     overflow: scroll;
+
     &::-webkit-scrollbar {
       -webkit-appearance: scrollbarbutton-down;
     }
@@ -43,27 +52,33 @@
   }
 }
 
-.inactive{
+.inactive {
   color: #ccc;
   cursor: auto;
 }
 
+.day {
+  display: inline-block;
+  margin: 0 auto;
+}
+
 @media only screen and (min-width: 600px) {
 
-  .hour-chart{
+  .hour-chart {
 
-    .header{
-      h3{
+    .header {
+      h3 {
         display: inline-block;
         margin-right: 10px;
       }
+
       .day {
         text-align: center;
         display: inline-block;
       }
     }
 
-    .chart-container{
+    .chart-container {
       max-height: inherit;
       overflow: auto;
     }
