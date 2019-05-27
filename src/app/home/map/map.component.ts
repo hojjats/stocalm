@@ -116,12 +116,7 @@ export class MapComponent implements OnInit, OnDestroy {
   private setSubscriptions() {
     // Subscribe to map center change
     const subscription1 = this.mapService.flyToEmitter.subscribe(value => {
-      this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
-      this.zoom = this.mapRef.zoom;
-      setTimeout(() => {
-        this.centerMapLocation = {lat: value.lat, lng: value.lng};
-        this.zoom = 18;
-      }, 50);
+      this.flyTo(value.lat, value.lng, 18);
     });
     this.subscriptions.push(subscription1);
 
@@ -206,7 +201,6 @@ export class MapComponent implements OnInit, OnDestroy {
     this.openMarkerDialog(
       this.getSensorFromList(event.latitude, event.longitude)
     );
-
   }
 
   onUserMarkerClick(event) {
@@ -248,6 +242,9 @@ export class MapComponent implements OnInit, OnDestroy {
 
   onToggleFollowUser() {
     this.mapService.centerMapByUserState = !this.mapService.centerMapByUserState;
+    if (this.mapService.centerMapByUserState && !!this.mapService.userLocation) {
+      this.flyTo(this.mapService.userLocation.lat, this.mapService.userLocation.lng, this.zoom);
+    }
     this.mapService.followUserEmitter.emit(this.mapService.centerMapByUserState);
   }
 
@@ -271,6 +268,15 @@ export class MapComponent implements OnInit, OnDestroy {
     this.directionDestination = undefined;
     this.directionsOptions.selectedMode = this.directionsOptions.travelModes[0].mode;
 
+  }
+
+  flyTo(lat: number, lng: number, zoom: number) {
+    this.centerMapLocation = {lat: this.mapRef.latitude, lng: this.mapRef.longitude};
+    this.zoom = this.mapRef.zoom;
+    setTimeout(() => {
+      this.centerMapLocation = {lat: lat, lng: lng};
+      this.zoom = zoom;
+    }, 50);
   }
 
 
