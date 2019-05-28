@@ -19,9 +19,9 @@
     background-color: #16B856;
     box-shadow: 0px 11px 14px -5px rgba(0, 0, 0, 0.57);
     border-radius: 50%;
-    width: 1.3em;
-    height: 1.3em;
-    line-height: 1.3em;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
     text-align: center;
     font-weight: bold;
     color: #fff;
@@ -43,7 +43,7 @@
     width: 1.5em;
     height: 1.5em;
     line-height: 1.5em;
-    color: #3880ff;
+    color: #16B856;
     animation: loading 1.2s linear infinite;
   }
 
@@ -77,14 +77,4 @@ ion-item{
 }
 .color-med{
   color: #465D43;
-}
-.filter-pad{
-  margin-right: 3%;
-  width: 4.1em;
-  height: 2.5em;
-}
-
-.nollstall{
-  width: 7.1em;
-  height: 2.5em;
 }
