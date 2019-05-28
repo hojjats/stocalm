@@ -2,6 +2,7 @@ import { Sensor } from 'src/app/shared/models/sensor.model';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { TestBed, inject, getTestBed } from '@angular/core/testing';
+import {environment} from './../../../environments/environment';
 
 
 describe('ApiService', () => {
@@ -133,7 +134,7 @@ describe('ApiService', () => {
         
         });
 
-        const req = httpMock.expectOne('http://localhost:8080/api/sensors/2');
+        const req = httpMock.expectOne(environment.BASE_URL + 'sensors/2');
         expect(req.request.method).toEqual('GET');
 
     //   req.flush(dummyData);
@@ -175,15 +176,7 @@ describe('ApiService', () => {
             expect(weather).toBe(dummyData.weather);
         });
 
-        const req = httpMock.expectOne('http://localhost:8080/api/weather/now/lng/333/lat/444');
+        const req = httpMock.expectOne(environment.BASE_URL + 'weather/now/lng/333/lat/444');
         expect(req.request.method).toEqual('GET');
     });
-
-
-
-
-
-
-
-
 });
