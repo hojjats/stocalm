@@ -1,17 +1,24 @@
 import { Sensor } from 'src/app/shared/models/sensor.model';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, getTestBed } from '@angular/core/testing';
 
 
 describe('ApiService', () => {
     let testSensor1;
     let testSensor2;
+    let httpMock: HttpTestingController;
+    let injector: TestBed;
+    let service: ApiService;
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [ApiService],
             imports: [HttpClientTestingModule]
         });
+
+        injector = getTestBed();
+        service = injector.get(ApiService);
+        httpMock = injector.get(HttpTestingController);
 
         testSensor1 = {
             readings: [
@@ -38,6 +45,10 @@ describe('ApiService', () => {
                 value: 30
             }] 
         };
+    });
+
+    afterEach(() => {
+
     });
 
 
@@ -106,6 +117,67 @@ describe('ApiService', () => {
         service.sortReadings(newSensor);
         expect(newSensor.readings[0].value).toBe(40);
     }));
+
+    it('should test GET', () => {
+        const dummyData =
+            {
+                reading: {
+                    date: '2019-11-11',
+                    time: '11:30',
+                    value: 11
+                }
+            };
+
+        service.getReadingsBySensorId(2).subscribe(reading => {
+            expect(reading).toBe(dummyData.reading);
+        
+        });
+
+        const req = httpMock.expectOne('http://localhost:8080/api/sensors/2');
+        expect(req.request.method).toEqual('GET');
+
+    //   req.flush(dummyData);
+    //    httpMock.verify();
+    });
+
+
+    it('should get sensors', () => {
+        const dummyData =
+            {
+                reading: {
+                    date: '2019-11-11',
+                    time: '11:30',
+                    value: 11
+                }
+            };
+
+        service.getSensors().subscribe(reading => {
+            expect(reading).toBe(dummyData.reading);
+        });
+
+      //  const req = httpMock.expectOne('http://localhost:8080/api/sensors');
+       // expect(req.request.method).toEqual('GET');
+
+    //   req.flush(dummyData);
+   // httpMock.verify();
+    });
+
+    it('should get weather', () => {
+        const dummyData =
+            {
+                weather: {
+                    temp: 17,
+                    iconUrl: 'test'
+                }
+            };
+
+        service.getRealTimeWeather(333, 444).subscribe(weather => {
+            expect(weather).toBe(dummyData.weather);
+        });
+
+        const req = httpMock.expectOne('http://localhost:8080/api/weather/now/lng/333/lat/444');
+        expect(req.request.method).toEqual('GET');
+    });
 
 
 
