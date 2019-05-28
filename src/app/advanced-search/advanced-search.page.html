@@ -15,7 +15,7 @@
 
     <form class="form" [formGroup]="filterService.form" (ngSubmit)="onSubmit()">
 
-      <label for="latestDecibelRange" >Senaste decibellvärde</label>
+      <label for="latestDecibelRange">Senaste decibellvärde</label>
       <ion-item>
         <ion-range #latestDecibelRange id="latestDecibelRange"
                    formControlName="latestDecibel"
@@ -50,8 +50,8 @@
       </ion-item>
 
       <div class="button-container">
-        <ion-button type="submit" [disabled]="!filterService.form.valid">Filtrera</ion-button>
-        <ion-button (click)="onClearFilters()">Nollställ filter</ion-button>
+        <ion-button type="submit" [disabled]="!filterService.form.valid">Visa på karta</ion-button>
+        <ion-button (click)="onClearFilters()">Nollställ</ion-button>
       </div>
     </form>
 

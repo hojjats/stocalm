@@ -1,8 +1,8 @@
-agm-map{
+agm-map {
   height: 100vh;
 }
 
-.direction-container{
+.direction-container {
   position: absolute;
   top: 10vh;;
   right: 0;
@@ -11,52 +11,90 @@ agm-map{
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
 
-  .fa-cog{
+  .fa-cog {
     width: 100%;
     text-align: right;
   }
 
-  li{
+  li {
     border-bottom: 1px solid #eeeeee;
     padding: 8px 17px;
     cursor: pointer;
     min-width: 50px;
   }
 
-  .settings{
+  .settings {
     transition: max-height 1s ease, max-width 1s ease 0.5s;
     max-height: 0px;
     max-width: 0px;
     overflow: hidden;
     white-space: nowrap;
 
-    .active{
+    .active {
       background-color: #eee;
     }
   }
 
-  .open{
+  .open {
     transition: max-height 1s ease 0.5s, max-width 1s ease;
     max-height: 500px;
     max-width: 500px;
   }
 }
 
-.follow-user-icon{
+.filter-list {
   position: absolute;
-  bottom: 9vh;
+  top: 10vh;;
+  right: 0;
+  z-index: 1;
+  margin: 0.5em;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+
+  ul {
+    .fa-filter{
+      color: #15b856;
+    }
+    li {
+      border-bottom: 1px solid #eeeeee;
+      padding: 8px 17px;
+      cursor: pointer;
+      min-width: 50px;
+    }
+  }
+
+  .list {
+    transition: max-height 1s ease, max-width 1s ease 0.5s;
+    max-height: 0px;
+    max-width: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .open {
+    transition: max-height 1s ease 0.5s, max-width 1s ease;
+    max-width: 500px;
+    max-height: 50vh;
+    overflow: scroll;
+  }
+
+}
+
+.follow-user-icon {
+  position: absolute;
+  bottom: 2vh;
   right: 1em;
   z-index: 1;
   font-size: 2em;
   color: #777;
 }
 
-.user-active{
+.user-active {
   color: #15b856;
 }
 
 @media only screen and (min-width: 600px) {
-  .search-container{
+  .search-container {
     width: auto;
   }
 }

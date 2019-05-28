@@ -44,9 +44,26 @@ export class ChartComponent implements OnInit {
     responsive: true,
     legend: {display: false},
     scales: {
-      xAxes: [{ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 5}}],
+      xAxes: [{
+        ticks: {
+          suggestedMax: 70,
+          beginAtZero: true,
+          stepSize: 5,
+          maxRotation: 0,
+          minRotation: 0,
+        },
+        gridLines: {display: false}
+      }],
       yAxes: [{
-        ticks: {suggestedMax: 70, beginAtZero: true, stepSize: 10}
+        ticks: {
+          suggestedMax: 70,
+          beginAtZero: true,
+          stepSize: 10,
+          callback: function (value, index, values) {
+            return value + ' db';
+          }
+        },
+        gridLines: {display: false},
       },
       ],
     },
@@ -55,9 +72,16 @@ export class ChartComponent implements OnInit {
         anchor: 'end',
         align: 'end',
       }
-    }
+    },
+    tooltips: {
+        callbacks: {
+          title: function(tooltipItems, data) {
+            return Constants.HOURS[tooltipItems[0].index];
+          }
+        },
+    },
   };
-  public hourChartLabels: Label[] = Constants.HOURS;
+  public hourChartLabels: Label[] = Constants.HOURS_SHORT;
   public hourChartType: ChartType = 'bar';
   public hourChartLegend = true;
   // public hourChartPlugins = [pluginDataLabels];
@@ -69,7 +93,7 @@ export class ChartComponent implements OnInit {
 
   ngOnInit() {
     this.setDay(new Date().getDay());
-    this.setWeekdayChart();
+    // this.setWeekdayChart();
     this.setHourChart(this.day);
   }
 
@@ -95,14 +119,14 @@ export class ChartComponent implements OnInit {
   setWeekdayChart() {
     this.dayChartData = [];
     this.dayChartData.push({
-      data: this.weekdayMeanValues, label: 'Medelvärde'
+      data: this.weekdayMeanValues, label: 'Medelvärde i decibel'
     });
   }
 
   setHourChart(day: number) {
     this.hourChartData = [];
     this.hourChartData.push({
-      data: this.hourMeanValues[day], label: 'Medelvärde'
+      data: this.hourMeanValues[day], label: 'Medelvärde i decibel'
     });
     const colors = [];
     for (let i = 0; i < this.hourChartData[0].data.length; i++) {
