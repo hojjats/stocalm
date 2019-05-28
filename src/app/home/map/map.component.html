@@ -35,6 +35,28 @@
   </ul>
 </div>
 
+<div *ngIf="filterService.activeFilters.length > 0 && !directionDestination && !directionOrigin"
+     class="filter-list">
+  <ul>
+    <li class="toggle" (click)="filterListOpen = !filterListOpen">
+      <i class="fas fa-filter"></i>
+    </li>
+    <ul class="list" [ngClass]="{'open': filterListOpen}">
+      <li *ngFor="let sensor of sensors"
+      (click)="onFilterResultClick(sensor)">
+        {{sensor.coords.location.name}}
+      </li>
+      <li (click)="filterService.reset()">
+         <span style="color: red">
+        <i class="fas fa-ban"></i>
+      </span>
+        Nollställ filtrering
+      </li>
+    </ul>
+  </ul>
+
+</div>
+
 <div class="follow-user-icon"
      [ngClass]="{'user-active': mapService.centerMapByUserState}">
   <i (click)="onToggleFollowUser()"

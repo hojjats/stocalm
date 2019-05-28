@@ -6,13 +6,14 @@ import {Subscription} from 'rxjs';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {AgmMap, GoogleMapsAPIWrapper} from '@agm/core';
+import {AgmMap, GoogleMapsAPIWrapper, LatLng, LatLngBounds, LatLngBoundsLiteral} from '@agm/core';
 import {MarkerPopupComponent} from './marker-popup/marker-popup.component';
 import {Translations} from '../../shared/translations';
 import {ToasterService} from '../../shared/services/toaster.service';
-import {ControlPosition, MapTypeControlStyle} from '@agm/core/services/google-maps-types';
+import {ControlPosition, google, MapTypeControlStyle} from '@agm/core/services/google-maps-types';
 import {FilterService} from '../../shared/services/filter.service';
 import {NavigationStart, Router} from '@angular/router';
+declare var google: any;
 
 
 @Component({
@@ -27,7 +28,6 @@ export class MapComponent implements OnInit, OnDestroy {
   @ViewChild('direction') private direction: any;
   @ViewChild(GoogleMapsAPIWrapper) private gmapWrapper: GoogleMapsAPIWrapper;
 
-  // All sensors from database
   sensors: Sensor[] = [];
 
   // Map Options
@@ -83,11 +83,12 @@ export class MapComponent implements OnInit, OnDestroy {
 
   // States
   setDestinationOriginState = false;
+  filterListOpen = false;
 
   // Subscriptions
   private subscriptions: Subscription[] = [];
 
-  constructor(public fillterServie: FilterService,
+  constructor(public filterService: FilterService,
               public mapService: MapService,
               public dialog: MatDialog,
               private geolocation: Geolocation,
@@ -120,7 +121,7 @@ export class MapComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(subscription1);
 
-    // Subscripbe to open sensor card
+    // Subscribe to open sensor card
     const subscription2 = this.mapService.openSensorCardEmitter.subscribe((sensor: Sensor) => {
       this.openMarkerDialog(sensor);
     });
@@ -154,8 +155,8 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   private getSensors() {
-    this.sensors = this.fillterServie.filteredSensors;
-    const subscription = this.fillterServie.filteredSensors$.subscribe((sensors: Sensor[]) => {
+    this.sensors = this.filterService.filteredSensors;
+    const subscription = this.filterService.filteredSensors$.subscribe((sensors: Sensor[]) => {
       this.sensors = sensors;
     });
     this.subscriptions.push(subscription);
@@ -277,6 +278,11 @@ export class MapComponent implements OnInit, OnDestroy {
       this.centerMapLocation = {lat: lat, lng: lng};
       this.zoom = zoom;
     }, 50);
+  }
+
+  onFilterResultClick(sensor: Sensor) {
+    this.filterListOpen = false;
+    this.flyTo(sensor.coords.lat, sensor.coords.lng, 18);
   }
 
 
