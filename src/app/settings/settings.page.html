@@ -11,25 +11,53 @@
     <ion-list inset="true">
         <ion-item>
             <ion-thumbnail slot="start">
-                <ion-img [src]="'assets/icon/volume_high.png'"></ion-img>
+                    <div padding-top="65%">
+                <ion-img style="width: 42%; height: 42%;" [src]="'assets/icon/volume_high.png'"></ion-img>
+                </div>
             </ion-thumbnail>
-            <ion-label>Hög ljudnivå</ion-label>
+            <span class="font14">
+            <ion-label color="medium">Hög ljudnivå</ion-label>
+            </span>
+            <span class="font14" slot="end">
             <ion-note>65+ DB</ion-note>
+            </span>
         </ion-item>
         <ion-item>
             <ion-thumbnail slot="start">
-                <ion-img [src]="'assets/icon/volume_middle.png'"></ion-img>
+                <div padding-top="65%">
+                <ion-img style="width: 42%; height: 42%;" [src]="'assets/icon/volume_middle.png'"></ion-img>
+                </div>
             </ion-thumbnail>
-            <ion-label>Medel ljudnivå</ion-label>
+            <span class="font14">
+            <ion-label color="medium">Medel ljudnivå</ion-label>
+            </span>
+            <span class="font14" slot="end">
             <ion-note>50-65 DB</ion-note>
+            </span>
         </ion-item>
         <ion-item>
             <ion-thumbnail slot="start">
-                <ion-img [src]="'assets/icon/volume_low.png'"></ion-img>
+                    <div padding-top="65%">
+                <ion-img style="width: 42%; height: 42%;" [src]="'assets/icon/volume_low.png'"></ion-img>
+                </div>
             </ion-thumbnail>
-            <ion-label>Låg ljudnivå</ion-label>
+            <span class="font14">
+            <ion-label color="medium">Låg ljudnivå</ion-label>
+            </span>
+            <span class="font14" slot="end">
             <ion-note>0-50 DB</ion-note>
+            </span>
         </ion-item>
+        <ion-item>
+                <ion-thumbnail slot="start">
+                        <div padding-top="65%">
+                    <ion-img style="width: 39%; height: 39%;" [src]="'assets/icon/volume_off.png'"></ion-img>
+                    </div>
+                </ion-thumbnail>
+                <div class="font14">
+                <ion-label color="medium">Avstängd/ur funktion</ion-label>
+                </div>
+            </ion-item>
     </ion-list>
     <div class="Segmentation">
         <ion-segment [(ngModel)]="activeState" color="secondary">
@@ -46,12 +74,12 @@
 
         <div class="issues-text-container" [ngSwitch]="activeState">
             <ion-list inset="true" *ngSwitchCase="'issues'">
-                <h1>Nuvarande störningar</h1>
+                <h1 color="medium">Nuvarande störningar</h1>
                 <h5 *ngIf="sensors.length === 0">Inga störningar</h5>
                 <ion-item *ngFor="let sensor of sensors">
                     <i class="fas fa-exclamation-triangle" slot="start"></i>
                     <div>
-                        <ion-label>{{ sensor.coords.location.name}}</ion-label>
+                        <ion-label color="medium">{{ sensor.coords.location.name}}</ion-label>
                         <ion-note>Senast uppdaterad: {{sensor.readings[0].date}}
                             {{sensor.readings[0].time.substring(0, 5)}}</ion-note>
                     </div>
