@@ -90,7 +90,8 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
 
   onClearFilters() {
     this.clearFilters();
-    this.router.navigate(['/']);
+    // Kommenterar ut raden under för att stanna i samma vy.
+   // this.router.navigate(['/']);
   }
 
   setFilterByLatestDecibel() {
