@@ -3,4 +3,5 @@ export interface Location {
   imgUrl: string;
   amenities: Array<string>;
   description: string;
+  dateUpdate: string;
 }
