@@ -154,9 +154,12 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   private getSensors() {
+    console.log('init');
+    console.log(this.fillterServie.filteredSensors);
     this.sensors = this.fillterServie.filteredSensors;
     const subscription = this.fillterServie.filteredSensors$.subscribe((sensors: Sensor[]) => {
       this.sensors = sensors;
+      console.log(sensors);
     });
     this.subscriptions.push(subscription);
   }

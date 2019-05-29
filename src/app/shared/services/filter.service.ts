@@ -25,6 +25,8 @@ export class FilterService {
 
   constructor(private apiService: ApiService,
               private mapService: MapService) {
+    this.filteredSensors = this.apiService.sensors;
+    this.tempFiltration = this.filteredSensors;
     apiService.sensors$.subscribe((sensors: Sensor[]) => {
       this.filteredSensors$.next(sensors);
       this.filteredSensors = sensors;

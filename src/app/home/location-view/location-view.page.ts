@@ -7,6 +7,7 @@ import {ApiService} from '../../shared/services/api.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Constants} from '../../shared/constants';
 import {SocialSharing} from '@ionic-native/social-sharing/ngx';
+import {NavController, Platform} from '@ionic/angular';
 
 
 @Component({
@@ -22,12 +23,18 @@ export class LocationViewPage implements OnInit {
     lng: number;
     amenities = Constants.AMENITIES_TRANSLATION;
     activeState: any;
+    url: string;
+    onMobile: boolean;
+    currentDecibel: number;
 
     constructor(private mapService: MapService,
                 private apiService: ApiService,
                 private router: Router,
                 private route: ActivatedRoute,
-                private socialSharing: SocialSharing) {
+                private socialSharing: SocialSharing,
+                private platform: Platform,
+                private navCtrl: NavController) {
+        this.url = window.location.pathname;
     }
 
     ionViewWillEnter() {
@@ -46,13 +53,16 @@ export class LocationViewPage implements OnInit {
             this.getSensor(this.lat, this.lng);
             this.getWeather();
         }
-
-        this.activeState = 'info';
+        this.onMobile = this.platform.is('cordova');
+        this.activeState = 'chart';
         console.log(this.sensors);
     }
 
-    ngOnInit() {
+    ionViewWillLeave() {
 
+    }
+
+    ngOnInit() {
     }
 
     print() {
@@ -64,6 +74,7 @@ export class LocationViewPage implements OnInit {
         this.sensors.forEach(sensor => {
             if (sensor.coords.lng === lng && sensor.coords.lat === lat) {
                 this.openedSensor = sensor;
+                this.currentDecibel = Math.round(this.openedSensor.readings[0].value);
             }
         });
         console.log(this.openedSensor);
@@ -75,6 +86,36 @@ export class LocationViewPage implements OnInit {
                 this.weather = weather;
             });
     }
+
+       /* async webShare() {
+        let nav;
+        nav = navigator;
+        console.log(nav.share);
+        if (nav.share) {
+            console.log('hej');
+            nav.share({
+                title: 'Kolla in denna plats',
+                text: 'Här är det lugnt och skönt 🍃 #StoCalm',
+                url: this.url
+            })
+                .then(() => {
+                    console.log('Sharing done!');
+                })
+                .catch((err) => {
+                    console.log('Sharing failed', err.message);
+                });
+        } else {
+            console.log('Browser not supported');
+        }
+
+        }*/
+
+    async onShowDirection() {
+        await this.mapService.initiateDirections.emit(this.openedSensor);
+        this.navCtrl.navigateBack('/');
+
+    }
+
 
     shareTwitter() {
         // Need Twitter on Device.
