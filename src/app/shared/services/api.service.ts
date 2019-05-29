@@ -59,18 +59,10 @@ export class ApiService {
     return this.httpClient.get(environment.BASE_URL + 'sensors');
   }
 
-  addReading(sensorId: string, newReading: Reading) {
-    return this.httpClient.post(environment.BASE_URL + 'sensors/readings/' + sensorId, newReading);
-  }
-
   getRealTimeWeather(lng: number, lat: number) {
     return this.httpClient.get(
       environment.BASE_URL + 'weather/now/lng/' + lng + '/lat/' + lat
     );
-  }
-
-  getForecast(lng: number, lat: number) {
-    return this.httpClient.get(environment.BASE_URL + 'weather/forecast/lng/' + lng + '/lat/' + lat);
   }
 
 }

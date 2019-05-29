@@ -24,4 +24,21 @@
       const result = component.generateCurrentDecibel(66);
       expect(result).toBe(expected);
      });
+
+     it('should set imgurl to undefined', () => {
+      component.popupOpen = true;
+      component.togglePopupImg('testString');
+      let result = component.popupImgUrl; 
+      expect(result).toBe(undefined);
+      expect(component.popupOpen).toBe(false);
+     });
+
+     it('should set imgurl to test string', () => {
+      let expected = 'testString';
+      component.popupOpen = false;
+      component.togglePopupImg(expected);
+      let result = component.popupImgUrl; 
+      expect(result).toBe(expected);
+      expect(component.popupOpen).toBe(true);
+     });
   });

@@ -1,0 +1,23 @@
+<div class="hour-chart" *ngIf="hourChartData.length > 0">
+  <div class="header">
+    <h3>Historisk ljudnivå:</h3>
+    <div class="day">
+    <span><i (click)="onChangeDay(-1) "
+             class="fas fa-chevron-left"></i></span>
+      <h3>{{days[day]}}</h3>
+      <span><i (click)="onChangeDay(1)"
+               class="fas fa-chevron-right"></i></span>
+    </div>
+  </div>
+  <div class="chart-container">
+    <canvas baseChart
+            height="150px"
+            [datasets]="hourChartData"
+            [labels]="hourChartLabels"
+            [options]="hourChartOptions"
+            [legend]="hourChartLegend"
+            [chartType]="hourChartType">
+    </canvas>
+
+  </div>
+</div>

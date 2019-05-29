@@ -90,7 +90,6 @@ export class AdvancedSearchPage implements OnInit, OnDestroy {
 
   onClearFilters() {
     this.clearFilters();
-    this.router.navigate(['/']);
   }
 
   setFilterByLatestDecibel() {

@@ -23,4 +23,18 @@ describe('ChartComponent', () => {
    component.setWeekdayChart();
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should push medelvärde once', () => {
+   component.setWeekdayChart();
+    expect(component.dayChartData.length).toBe(1);
+  });
+
+  xit('should change day', () => {
+    let testDayNumber = 7;
+    let currentDay = component.day;
+    console.log('currentDay pre method: ' + currentDay);
+
+    component.onChangeDay(testDayNumber);
+     expect(component.day).not.toBe(7);
+   });
 });

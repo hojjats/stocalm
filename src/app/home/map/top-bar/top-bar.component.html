@@ -1,10 +1,11 @@
 <div class="container">
   <div class="logo">
+      <img src="assets/icon/favicon.ico">
     <h1>StoCalm</h1>
-    <img src="assets/icon/logo_icon.png">
   </div>
   <div *ngIf="!!weather" class="temperature">
     <img [src]="weather.iconUrl">
-    <h1>{{weather.temp | number:'1.0-0'}}°</h1>
+    <h2>{{weather.temp | number:'1.0-0'}}°</h2>
   </div>
 </div>
+

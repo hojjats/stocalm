@@ -5,7 +5,7 @@
   <span class="filter-button"
         (click)="onToggleFilterForm()"
         [ngClass]="{'active': openFilterState}">
-    Filtrering
+    Avancerad sökning
     <i class="fas"
        [ngClass]="openFilterState? 'fa-caret-up' : 'fa-caret-down'"></i>
   </span>
@@ -15,32 +15,34 @@
 
     <form class="form" [formGroup]="filterService.form" (ngSubmit)="onSubmit()">
 
-      <label for="latestDecibelRange" >Senaste decibellvärde</label>
+      <label for="latestDecibelRange" class="color-med">Senaste decibellvärde</label>
       <ion-item>
         <ion-range #latestDecibelRange id="latestDecibelRange"
                    formControlName="latestDecibel"
+                   color="secondary"
                    min="0"
                    max="100"
                    dualKnobs="true"
                    width="100%"
                    (ionChange)="onRangeChange($event)">
-          <ion-label slot="start">{{latestDecibelRange.value.lower}}</ion-label>
-          <ion-label slot="end">{{latestDecibelRange.value.upper}}</ion-label>
+          <ion-label slot="start" color="medium">{{latestDecibelRange.value.lower}}</ion-label>
+          <ion-label slot="end" color="medium">{{latestDecibelRange.value.upper}}</ion-label>
         </ion-range>
       </ion-item>
-      <label for="decibelMeanValue">Decibel-medelvärde för idag</label>
+      <label for="decibelMeanValue" class="color-med">Decibel-medelvärde för idag</label>
       <ion-item>
         <ion-range #decibelMeanValueRange id="decibelMeanValue"
                    formControlName="decibelMeanValue"
+                   color="secondary"
                    min="0"
                    max="100"
                    dualKnobs="true"
                    (ionChange)="onRangeChange($event)">
-          <ion-label slot="start">{{decibelMeanValueRange.value.lower}}</ion-label>
-          <ion-label slot="end">{{decibelMeanValueRange.value.upper}}</ion-label>
+          <ion-label slot="start" color="medium">{{decibelMeanValueRange.value.lower}}</ion-label>
+          <ion-label slot="end" color="medium">{{decibelMeanValueRange.value.upper}}</ion-label>
         </ion-range>
       </ion-item>
-      <label for="distance">Max avstånd (km)</label>
+      <label for="distance" class="color-med">Max avstånd (km)</label>
       <ion-item>
         <ion-input #input
                    id="distance"
@@ -50,8 +52,8 @@
       </ion-item>
 
       <div class="button-container">
-        <ion-button type="submit" [disabled]="!filterService.form.valid">Filtrera</ion-button>
-        <ion-button (click)="onClearFilters()">Nollställ filter</ion-button>
+        <ion-button type="submit" [disabled]="!filterService.form.valid" color="secondary" class="filter-pad">Visa på karta</ion-button>
+        <ion-button (click)="onClearFilters()" color="secondary" class="nollstall">Nollställ</ion-button>
       </div>
     </form>
 
