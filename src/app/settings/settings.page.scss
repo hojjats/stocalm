@@ -42,9 +42,18 @@ ion-content {
   color: #465D43;
   //font-weight: bold;
 }
-.Segmentation {
-  padding: 5%;
+
+.Segmentation  {
+  padding: 0 0.5em;
+  ion-segment{
+    display: inline-block;
+  }
 }
+
+.button-native{
+  padding: 0 !important;
+}
+
 .about-text-container {
   margin-top: 5%;
   text-align: center;
@@ -63,5 +72,25 @@ ion-content {
 .font14 {
   font-size: 14px;
 }
+
+@media only screen and (min-width: 400px){
+  .Segmentation  {
+    ion-segment{
+      display: flex;
+    }
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .Segmentation {
+    padding: 5%;
+  }
+  button{
+    padding: unset;
+  }
+
+}
+
+
 
 

@@ -13,7 +13,6 @@ import {ToasterService} from '../../shared/services/toaster.service';
 import {ControlPosition, google, MapTypeControlStyle} from '@agm/core/services/google-maps-types';
 import {FilterService} from '../../shared/services/filter.service';
 import {NavigationStart, Router} from '@angular/router';
-declare var google: any;
 
 
 @Component({
