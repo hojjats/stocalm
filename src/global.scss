@@ -62,3 +62,9 @@ ul, li {
     }
   }
 }
+
+@media only screen and (orientation : landscape) and (max-width: 900px) {
+  #outlet {
+    margin-bottom: 12vh;
+  }
+}

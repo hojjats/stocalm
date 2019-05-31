@@ -3,20 +3,21 @@
   background-color: #fff;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border-bottom: 1% solid #ccc;
+  border-bottom: 1px solid #ccc;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1;
-  height: 6.7vh;
+  height: 7vh;
+  overflow: hidden;
 
   img, h1{
     display: inline-block;
   }
 
   img{
-    max-height: 30px;
+    height: 30px;
     margin-right: 10px;
   }
 
@@ -46,4 +47,10 @@
     }
   }
 
+}
+
+@media only screen and (orientation : landscape) and (max-width: 900px){
+  .container {
+    height: 12vh;
+  }
 }
