@@ -1,7 +1,7 @@
 export class Constants {
 
-  public static DAYS_MONDAY_FIRST = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'];
-  public static DAYS_SUNDAY_FIRST = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'];
+  public static DAYS_MONDAY_FIRST = ['Måndagar', 'Tisdagar', 'Onsdagar', 'Torsdagar', 'Fredagar', 'Lördagar', 'Söndagar'];
+  public static DAYS_SUNDAY_FIRST = ['Söndagar', 'Måndagar', 'Tisdagar', 'Onsdagar', 'Torsdagar', 'Fredagar', 'Lördagar'];
   public static HOURS = [
     '00:00',
     '01:00',
@@ -62,7 +62,6 @@ export class Constants {
     {value: 'playground', sv: 'Lekpark'},
     {value: 'parking', sv: 'Parkering'}
   ];
-
 }
 
 export class Filters {

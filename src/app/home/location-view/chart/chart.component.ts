@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Constants} from '../../../../shared/constants';
+import {Constants} from '../../../shared/constants';
 import {ChartColor, ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Label} from 'ng2-charts';
 

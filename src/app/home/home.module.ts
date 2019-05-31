@@ -9,6 +9,7 @@ import {AgmDirectionModule} from 'agm-direction';
 import {HomePage} from './home.page';
 import {MapComponent} from './map/map.component';
 import {TopBarComponent} from './map/top-bar/top-bar.component';
+import {MarkerIconPipe} from './map/markerIcon.pipe';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import {TopBarComponent} from './map/top-bar/top-bar.component';
   declarations: [
     HomePage,
     MapComponent,
-    TopBarComponent
+    TopBarComponent,
+    MarkerIconPipe
   ],
   entryComponents: [],
 })

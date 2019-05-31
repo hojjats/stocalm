@@ -81,7 +81,7 @@
               *ngFor="let sensor of sensors"
               [latitude]="sensor.coords.lat"
               [longitude]="sensor.coords.lng"
-              [iconUrl]="sensor.readings[0].value <= 65 ? sensor.readings[0].value < 50 ? markerIconLow : markerIconMiddle : markerIconHigh"
+              [iconUrl]="sensor | markerIconPipe"
               [zIndex]="1">
 
   </agm-marker>

@@ -16,46 +16,43 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MarkerPopupComponent} from './home/map/marker-popup/marker-popup.component';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {ToasterPopupComponent} from './shared/toaster-popup/toaster-popup.component';
-import {ChartComponent} from './home/map/marker-popup/chart/chart.component';
+import {ChartComponent} from './home/location-view/chart/chart.component';
 import {ChartsModule} from 'ng2-charts';
 import {ApiService} from './shared/services/api.service';
 import {FilterService} from './shared/services/filter.service';
 import {ReactiveFormsModule} from '@angular/forms';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { ShareButtonsModule } from '@ngx-share/buttons';
-
+import {SocialSharing} from '@ionic-native/social-sharing/ngx';
+import {ShareButtonsModule} from '@ngx-share/buttons';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavigationComponent,
-    MarkerPopupComponent,
-    ChartComponent,
-    ToasterPopupComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ChartsModule,
-    IonicModule.forRoot(),
-    HttpClientModule,
-    ShareButtonsModule
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    Geolocation,
-    ApiService,
-    FilterService,
-    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-    SocialSharing
-  ],
-  bootstrap: [AppComponent],
-  entryComponents: [MarkerPopupComponent]
+    declarations: [
+        AppComponent,
+        NavigationComponent,
+        MarkerPopupComponent,
+        ToasterPopupComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        AppRoutingModule,
+        HttpClientModule,
+        IonicModule.forRoot(),
+        HttpClientModule,
+        ShareButtonsModule
+    ],
+    providers: [
+        StatusBar,
+        SplashScreen,
+        Geolocation,
+        ApiService,
+        FilterService,
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        SocialSharing
+    ],
+    bootstrap: [AppComponent],
+    entryComponents: [MarkerPopupComponent]
 })
 export class AppModule {
 }
