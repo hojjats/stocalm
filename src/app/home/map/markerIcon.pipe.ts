@@ -41,7 +41,7 @@ export class MarkerIconPipe implements PipeTransform {
   transform(sensor: Sensor) {
     const today = new Date();
     const latestReading = new Date(sensor.readings[0].date + ' ' + sensor.readings[0].time);
-    if (((today.getTime() - latestReading.getTime()) / 60000) > 60) {
+    if (((today.getTime() - latestReading.getTime()) / 60000) > (60 * 24)) {
       return this.markerIconDisable;
     } else if (sensor.readings[0].value >= 65) {
       return this.markerIconHigh;
