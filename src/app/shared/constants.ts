@@ -62,7 +62,6 @@ export class Constants {
     {value: 'playground', sv: 'Lekpark'},
     {value: 'parking', sv: 'Parkering'}
   ];
-
 }
 
 export class Filters {

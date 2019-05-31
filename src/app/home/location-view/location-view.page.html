@@ -1,9 +1,9 @@
-<ion-header >
+<ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-back-button defaultHref="" text="" color="secondary"></ion-back-button>
         </ion-buttons>
-        <div class="header" *ngIf="openedSensor; else spinner" >
+        <div class="header" *ngIf="openedSensor; else spinner">
             <ion-title color="tertiary" slot="primary"><h3>{{openedSensor?.coords.location.name}}</h3></ion-title>
             <span *ngIf="!!weather" class="temperature" slot="end">
                 <img [src]="weather.iconUrl">
@@ -27,11 +27,6 @@
             <div class="button-container">
                 <ion-row class="second-row">
                     <ion-col>
-                        <!--<ion-fab vertical="top" horizontal="center">
-                            <ion-fab-button (click)="webShare()">
-                                <ion-icon name="share"></ion-icon>
-                            </ion-fab-button>
-                        </ion-fab>-->
                         <div class="shareButtons">
                             <share-buttons [theme]="'default'"
                                            [include]="['facebook','twitter']"
@@ -44,19 +39,6 @@
                                            [autoSetMeta]="false"
                             ></share-buttons>
                         </div>
-                        <!--<ion-fab>
-                        <ion-fab-button size="small">
-                            <ion-icon name="share"></ion-icon>
-                        </ion-fab-button>
-                        <ion-fab-list side="start" >
-                            <ion-fab-button (click)="shareTwitter()">
-                                <ion-icon name="logo-twitter"></ion-icon>
-                            </ion-fab-button>
-                            <ion-fab-button (click)="shareFacebook()">
-                                <ion-icon name="logo-facebook"></ion-icon>
-                            </ion-fab-button>
-                        </ion-fab-list>
-                        </ion-fab>-->
                     </ion-col>
                 </ion-row>
             </div>
@@ -77,11 +59,6 @@
                     <ion-col class="last-updated-text" pull="4">
                         ({{this.currentDecibel}} db)
                     </ion-col>
-                    <!--<div class="last-updated-text">
-                        <ion-col pull="1">(Senast uppdaterad: {{openedSensor.readings[0].date}}
-                            , {{openedSensor.readings[0].time}})
-                        </ion-col>
-                    </div>-->
                 </ion-row>
 
             </div>
@@ -118,6 +95,7 @@
                         <ion-col>
                             <ul>
                                 <li *ngFor="let amenity of amenities">
+
                                     <i *ngIf="openedSensor.coords.location.amenities.includes(amenity.value)"
                                        class="fas fa-check"></i>
                                     <i *ngIf="!openedSensor.coords.location.amenities.includes(amenity.value)"
@@ -135,9 +113,5 @@
 
 </ion-content>
 <ion-footer no-border>
-
-
     <ion-button expand="block" fill="solid" size="small" strong="" (click)="onShowDirection()">Hitta hit</ion-button>
-
-
 </ion-footer>

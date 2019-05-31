@@ -18,6 +18,7 @@ export class SettingsPage implements OnInit {
   constructor(public apiService: ApiService) {
   }
 
+
     ngOnInit() {
         this.loadAllSensors();
         this.activeState = 'issues';
@@ -45,6 +46,7 @@ export class SettingsPage implements OnInit {
             return (today.toLocaleDateString('sv-SE') !== latestReading.toLocaleDateString('sv-SE') ||
                 (today.toLocaleDateString('sv-SE') === latestReading.toLocaleDateString('sv-SE') &&
                     ((today.getTime() - latestReading.getTime()) / 60000) > 60));
+
         });
     }
 
