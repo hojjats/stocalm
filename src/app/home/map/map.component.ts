@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Sensor} from '../../shared/models/sensor.model';
-import {ApiService} from '../../shared/services/api.service';
 import {MapService} from '../../shared/services/map.service';
 import {Subscription} from 'rxjs';
 import {MatDialog, MatDialogConfig} from '@angular/material';
@@ -13,7 +12,6 @@ import {ToasterService} from '../../shared/services/toaster.service';
 import {ControlPosition, google, MapTypeControlStyle} from '@agm/core/services/google-maps-types';
 import {FilterService} from '../../shared/services/filter.service';
 import {NavigationStart, Router} from '@angular/router';
-declare var google: any;
 
 
 @Component({
@@ -33,30 +31,6 @@ export class MapComponent implements OnInit, OnDestroy {
   // Map Options
   centerMapLocation: any = {lat: 59.407239, lng: 17.945496};
   zoom = 13;
-
-  markerIconLow = {
-    url: 'assets/icon/volume_low.png',
-    scaledSize: {
-      width: 50,
-      height: 50
-    }
-  };
-
-  markerIconMiddle = {
-    url: 'assets/icon/volume_middle.png',
-    scaledSize: {
-      width: 50,
-      height: 50
-    }
-  };
-
-  markerIconHigh = {
-    url: 'assets/icon/volume_high.png',
-    scaledSize: {
-      width: 50,
-      height: 50
-    }
-  };
 
   userIconOptions = {
     url: 'assets/icon/user.png',
@@ -123,7 +97,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
     // Subscribe to open sensor card
     const subscription2 = this.mapService.openSensorCardEmitter.subscribe((sensor: Sensor) => {
-      this.openMarkerDialog(sensor);
+      this.router.navigateByUrl(`/location-view/${sensor.coords.lat}/${sensor.coords.lng}`);
     });
     this.subscriptions.push(subscription2);
 
@@ -281,6 +255,7 @@ export class MapComponent implements OnInit, OnDestroy {
   onFilterResultClick(sensor: Sensor) {
     this.filterListOpen = false;
     this.flyTo(sensor.coords.lat, sensor.coords.lng, 18);
+    this.router.navigateByUrl(`/location-view/${sensor.coords.lat}/${sensor.coords.lng}`);
   }
 
 
