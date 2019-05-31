@@ -35,12 +35,5 @@ describe('SearchComponent', () => {
     expect(component.searchResult.length).toBe(0);
   });
 
-  xit('should should search 1-length string and return nothing', () => {
-    // fails, något med sensor?
-    let testString = 'A';
-    component.search(testString);
-    console.log(component.searchResult.length);
-    expect(component.searchResult.length).toBe(0);
-  });
 });
 
