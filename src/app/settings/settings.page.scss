@@ -70,14 +70,6 @@ ion-content {
   font-size: 14px;
 }
 
-@media only screen and (min-width: 400px){
-  .Segmentation  {
-    ion-segment{
-      display: flex;
-    }
-  }
-}
-
 @media only screen and (min-width: 600px) {
   .Segmentation {
     padding: 5%;
