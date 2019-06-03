@@ -60,14 +60,14 @@
             </ion-item>
     </ion-list>
     <div class="Segmentation">
-        <ion-segment [(ngModel)]="activeState" color="secondary">
-            <ion-segment-button value="issues">
+        <ion-segment [(ngModel)]="activeState" color="secondary" mode="ios">
+            <ion-segment-button value="issues" mode="ios">
                 <ion-label>Störningar</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="about">
+            <ion-segment-button value="about" mode="ios">
                 <ion-label>Om oss</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="contact">
+            <ion-segment-button value="contact" mode="ios">
                 <ion-label>Kontakta oss</ion-label>
             </ion-segment-button>
         </ion-segment>
